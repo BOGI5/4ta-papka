@@ -10,30 +10,15 @@ img {
     max-height: 100%;
 }
 
-h1 {
-    position: absolute;
-    top: 45%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2px;
-    color: white;
-    text-align: center;
-    font-size: 75px;
-    font-family: 'Roboto', sans-serif;
-    margin-top: 0;
-    padding-top: 20px;
-}
 
 #forms {
     position: absolute;
-    top: 65%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 
     display: flex;
+    flex-direction: column; /* Add this line */
     align-items: center;
     justify-content: center;
 }
@@ -42,6 +27,7 @@ input {
     opacity: 0.3;
     border-radius: 0.7em;
     transform: translateY(-10px);
+    margin: 10px 0; /* Add this line */
 }
 
 body {
@@ -53,10 +39,11 @@ body {
     width: 100%;
 }
 
-#signup,
-#login {
+#email,
+#password,
+#submitter {
     height: 50px;
-    width: 130px;
+    width: 300px;
     background-color: #ffffff;
     color: rgb(0, 0, 0);
     border: none;
@@ -67,14 +54,5 @@ body {
     font-size: 30px;
     transition: 0.3s;
     margin-right: 10px;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-#signup:hover,
-#login:hover {
-    background-color: #ffffff;
-
+    
 }
