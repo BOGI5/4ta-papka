@@ -8,6 +8,7 @@ from flask_login import (
 )
 
 from app import app, db, login_manager
+
 from app.generate_calendar import calculate_calendar
 from app.model import Quiz, Recipe, User
 
@@ -30,31 +31,35 @@ def quiz():
     if request.method == "GET":
         return render_template("form.html", name=current_user.name)
 
-    quiz = Quiz(
-        user=current_user.id,
-        time=request.form["time"],
-        allergic=request.form["allergic"],
-        meals_count=request.form["meals_count"],
-        preference=request.form["preference"],
-        appliances=request.form["appliances"],
-        skill_level=request.form["skill_level"],
-    )
-    try:
-        db.session.add(quiz)
-        db.session.commit()
-    except Exception:
-        return "Error"
 
-    return calculate_calendar(
-        {
-            "time": request.form["time"],
-            "allergic": request.form["allergic"],
-            "meals_per_day": request.form["meals_count"],
-            "preference": request.form["preference"],
-            "appliances": request.form["appliances"],
-            "skill_level": request.form["skill_level"],
-        }
-    )
+    elif request.method == "POST":
+        quiz = Quiz(
+            user=current_user.id,
+            time=request.form["time"],
+            allergic=request.form["allergic"],
+            meals_count=request.form["meals_count"],
+            preference=request.form["preference"],
+            appliances=request.form["appliances"],
+            skill_level=request.form["skill_level"],
+        )
+        try:
+            db.session.add(quiz)
+            db.session.commit()
+        except Exception:
+            return "Error"
+        return redirect("/calendar")
+
+   # return calculate_calendar(
+       # {
+         #   "time": request.form["time"],
+         #   "allergic": request.form["allergic"],
+         #   "meals_per_day": request.form["meals_count"],
+          #  "preference": request.form["preference"],
+          #  "appliances": request.form["appliances"],
+         #   "skill_level": request.form["skill_level"],
+       # }
+    #)
+
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -106,6 +111,37 @@ def logout():
     return "Ok"
 
 
+def get_recipes():
+    return Recipe.query.filter_by(user=current_user.id).all()
+
+
+@app.route("/calendar")
+def calendar():
+    save_recipe({
+        "Recipe": "Shopska salad",
+        "Time to make": 5,
+        "Calories": 55,
+        "Ingredients": "sfgjdlgldfjgjdf dfjdglfd",
+        "Instructions": "Some instructions"
+    })
+    save_recipe({
+        "Recipe": "Bolonnnanan",
+        "Time to make": 53,
+        "Calories": 5125,
+        "Ingredients": "sljdgjksdhkjsdhk",
+        "Instructions": "Some instructions"
+    })
+    save_recipe({
+        "Recipe": "Fish",
+        "Time to make": 5111,
+        "Calories": 5577,
+        "Ingredients": "shgfjsdhjh lsflhdwl",
+        "Instructions": "Some instructions"
+    })
+    recipes = get_recipes()
+    return render_template("/calendar.html", recipes=recipes)
+
+  
 def save_recipe(recipe_info: dict):
     recipe = Recipe(
         user=current_user.id,
