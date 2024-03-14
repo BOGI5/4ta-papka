@@ -10,7 +10,7 @@ def generate_recipes(input_info):
     input_formatted = '\n'.join([f"{key}: {value}" for key, value in input_info.items()])
     print("start")
     content = (
-        "You are a cooking assistant. Make a list of 10 recipes. Format them like a json file and print ONLY then info.You should have label, totalTime(Time to make), calories, instructions(step by step in one string), ingridients and number_of_meals:\n"
+        "You are a cooking assistant. Make a list of 10 recipes. Format them like a json file and print ONLY then info.You should have label, totalTime(Time to make in minutes), calories, instructions(step by step in one string), ingridients and number_of_meals:\n"
         "This is the user's input. It is very imoprtant!!!:\n"
         f"{input_formatted}"
         "Use ONLY this scheme:"'''
@@ -22,7 +22,7 @@ def generate_recipes(input_info):
         "type": "string"
       },
       "totalTime": {
-        "type": "string"
+        "type": "int"
       },
       "calories": {
         "type": "int"
