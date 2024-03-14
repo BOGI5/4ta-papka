@@ -22,11 +22,21 @@ def main():
     return render_template("index.html")
 
 
-@app.route("/menu")
-def menu():
+@app.route("/quiz", methods=["GET", "POST"])
+def quiz():
     if isinstance(current_user, AnonymousUserMixin):
         return "No"
-    return render_template("form.html", name=current_user.name)
+    if request.method == "GET":
+        return render_template("form.html", name=current_user.name)
+
+    return {
+        "time": request.form["time"],
+        "allergic": request.form["allergic"],
+        "meals_count": request.form["meals_count"],
+        "preference": request.form["preference"],
+        "appliances": request.form["appliances"],
+        "skill_level": request.form["skill_level"],
+    }
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -48,7 +58,7 @@ def signup():
 
     login_user(user)
 
-    return redirect("/menu")
+    return redirect("/quiz")
 
 
 @app.route("/login", methods=["GET", "POST"])
