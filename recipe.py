@@ -28,7 +28,7 @@ def get_recipe(recipe_name):
                 "Time to make": recipe['totalTime'],
                 "Calories": recipe['calories'],
                 "Ingredients": recipe['ingredientLines'],
-                "Generated Recipe Reception": generate_instructions(recipe['label'], recipe['ingredientLines'], recipe['totalTime'])
+                "Instructions": generate_instructions(recipe['label'], recipe['ingredientLines'], recipe['totalTime'])
             }
         else:
             recipe_info = {"Error": "No recipe found"}
