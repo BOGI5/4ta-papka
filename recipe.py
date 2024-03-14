@@ -6,39 +6,33 @@ app_key = "f7205515fdb6c693a5c6841b413f62b4"
 
 base_url = "https://api.edamam.com/search"
 
-recipe_name = "fries "
+def get_recipe(recipe_name):
+    params = {
+        "q": recipe_name,
+        "app_id": app_id,
+        "app_key": app_key
+    }
 
-params = {
-    "q": recipe_name,
-    "app_id": app_id,
-    "app_key": app_key
-}
+    response = requests.get(base_url, params=params)
+    recipe_info = {} 
 
-response = requests.get(base_url, params=params)
-
-if response.status_code == 200:
-    data = response.json()
-    
-    
-    
-    
-    if 'hits' in data:
-        for hit in data['hits']:
+    if response.status_code == 200:
+        data = response.json()
+        
+        if 'hits' in data and data['hits']:
+            hit = data['hits'][0] 
             recipe = hit['recipe']
 
-            print("Recipe: ", recipe['label'])
-            print("Time to make: ", recipe['totalTime'])
-            print("Calories: ", recipe['calories'])
-            print("Uri: ", recipe['uri'])
-            
-            print("Ingredients:")
-            for ingredient in recipe['ingredientLines']:
-                print("-", ingredient)
+            recipe_info = {
+                "Recipe": recipe['label'],
+                "Time to make": recipe['totalTime'],
+                "Calories": recipe['calories'],
+                "Ingredients": recipe['ingredientLines'],
+                "Generated Recipe Reception": generate_instructions(recipe['label'], recipe['ingredientLines'], recipe['totalTime'])
+            }
+        else:
+            recipe_info = {"Error": "No recipe found"}
+    else:
+        recipe_info = {"Error": f"Failed to fetch recipes. Status code: {response.status_code}"}
 
-            instructions = generate_instructions(recipe['label'], recipe['ingredientLines'], recipe['totalTime'])
-            print("Generated Recipe Reception:\n", instructions)
-            print("\n")
-                        
-            break 
-else:
-    print("Error:", response.status_code)
+    return recipe_info
