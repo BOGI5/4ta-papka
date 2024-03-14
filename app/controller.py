@@ -1,7 +1,8 @@
-from app import app, db, login_manager
+from app import app, db, login_manager, mail
 from model import *
 from flask import render_template, request
 from flask_login import login_required, login_user, logout_user, current_user
+from flask_mail import Message
 
 
 @login_manager.user_loader
@@ -86,3 +87,9 @@ def login():
 @login_required
 def logout():
     logout_user()
+
+
+def send_email(recipient: str, body: str):
+    message = Message(subject="DishEat", recipients=recipient)
+    message.body = body
+    mail.send(message)
