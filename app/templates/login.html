@@ -16,7 +16,7 @@
 
     <form id="forms" method="post">
         <img id="logo" src="../static/logo.webp" alt="logo">
-        {% if error is "Invalid Email" %}
+        {% if error == "Invalid Email" %}
         <input type="email" name="email" id="email" placeholder="Invalid Email" required>
         <style>
             #email {
@@ -31,7 +31,7 @@
         <input type="email" name="email" id="email" placeholder="Email" required>
         {% endif %}
 
-        {% if error is "Invalid Password" %}
+        {% if error == "Invalid Password" %}
         <input type="password" name="password" id="password" placeholder="Invalid Password">
         <style>
             #password {
