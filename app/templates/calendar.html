@@ -26,26 +26,21 @@
 
     <table>
         <tr class="days">
-            
-            {%for day in days%}
-                <th> {{ day.date }} </th>
+            {%for i in arr%}
+                <th> {{i}} </th>
             {% endfor %}
 
         </tr>
 
         <tr class="rows">
-            {%for recipe in recipes%}
-
-                <!--td class="meals">{% for meal in day %}-->
-
+          {%for day in days%}
+            {%for recipe in day%}
                     <td class="meal"> 
-                        {{meal.label}}
+                        {{recipe.label}}
                     </td>
-
-
-                <!--{%endfor%}</td-->
-
+                    <a href="/recipe/{{ recipe.id }}">See more</a>
             {% endfor %}
+          {% endfor %}
         </tr>
         
         
