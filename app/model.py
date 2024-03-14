@@ -24,7 +24,7 @@ class Recipe(db.Model):
     ingridients = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     instructions = db.Column(db.String(5000), nullable=False)
     number_of_meals = db.Column(db.Integer, nullable=False)
-    meal_num = db.Column(db.Integer, nullable=False)
+    day = db.Column(db.Float, nullable=False)
 
     __table_args__ = (
         db.UniqueConstraint('label', 'user'),

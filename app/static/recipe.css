@@ -1,0 +1,50 @@
+img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -1;
+}
+#container {
+    top: 50%;
+    left: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+h1 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #DFD9D3;
+    text-align: center;
+    font-size: 3.5vw;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 1%;
+    
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+p {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #DFD9D3;
+    text-align: center;
+    font-size: 2.5vw;
+    font-family: 'Roboto', sans-serif;
+    padding-top: 1%;
+    
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
