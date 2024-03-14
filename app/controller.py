@@ -3,7 +3,7 @@ from flask_login import current_user, login_required, login_user, logout_user
 from flask_mail import Message
 
 from app import app, db, login_manager, mail
-from app.model import User
+from app.model import *
 
 
 @login_manager.user_loader
@@ -69,3 +69,10 @@ def send_email(recipient, body: str):
     message = Message(subject="DishEat", recipients=[recipient])
     message.body = body
     mail.send(message)
+
+
+def add_receipe(receipe_data: dict):
+    receipe = Receipe(user=current_user["id"], label=receipe_data["Receipe"], total_time=receipe_data["Time to make"], 
+                      calories=receipe_data["Calories"], ingridients=receipe_data["Ingredients"], instructions=receipe_data["Instructions"])
+    db.session.add(receipe)
+    db.session.commit()

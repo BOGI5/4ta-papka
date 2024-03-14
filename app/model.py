@@ -12,3 +12,18 @@ class User(UserMixin, db.Model):
 
     def __repr__(self) -> str:
         return f"Email: {self.email}"
+    
+
+class Receipe(db.Model):
+    TEXT_MAX_SIZE = 300
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user = db.Column(db.Integer, db.ForeignKey('user.id'))
+    label = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    total_time = db.Column(db.Integer, nullable=False)
+    calories = db.Column(db.Integer, nullable=False)
+    ingridients = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    instructions = db.Column(db.String(5000), nullable=False)
+
+    __table_args__ = (
+        db.UniqueConstraint('label', 'user'),
+    )
