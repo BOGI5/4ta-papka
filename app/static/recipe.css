@@ -10,21 +10,27 @@ img {
     max-height: 100%;
     z-index: -1;
 }
+
+body {
+    border: none;
+}
+
 #container {
-    width: 50%;
-    height: 50%;
+    width: 100%;
+    height: 100%;
     position: absolute;
-    top: 15%;
-    left: 20%;
+    top: 0%;
+    left: -10%;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
 }
 
 h1 {
     color: #DFD9D3;
-    text-align: center;
+    text-align: left;
     font-size: 2.5vw;
-    font-family: 'Roboto', sans-serif;
     padding-top: 1%;
     
     font-family: "Madimi One", sans-serif;
@@ -34,9 +40,8 @@ h1 {
 
 p {
     color: #DFD9D3;
-    text-align: center;
+    text-align: left;
     font-size: 1.3vw;
-    font-family: 'Roboto', sans-serif;
     padding-top: 1%;
     
     font-family: "Madimi One", sans-serif;
