@@ -91,8 +91,8 @@ def logout():
     logout_user()
 
 
-def send_email(recipient: str, body: str):
-    message = Message(subject="DishEat", recipients=recipient)
+def send_email(recipient, body: str):
+    message = Message(subject="DishEat", recipients=[recipient])
     message.body = body
     mail.send(message)
 
