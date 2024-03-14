@@ -130,10 +130,13 @@ def calendar():
         for j in range(0, len(recipes_list)):
             save_recipe(recipes_list[j], (1 + i) + ((j + 1) / 10))
     days = get_recipes()
+    arr = []
+    for i in range(1, 8):
+        arr.append(i)
     # ingridients = []
     # for i in range(0, len(recipes)):
     #    ingridients.append(recipes[i].split(""))
-    return render_template("/calendar.html", days=days)
+    return render_template("/calendar.html", days=days, arr=arr)
 
   
 def save_recipe(recipe_info: dict, day: float):
