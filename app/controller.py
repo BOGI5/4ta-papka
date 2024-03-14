@@ -112,6 +112,9 @@ def get_recipes():
     return days
 
 
+def get_recipe_by_id(id: int):
+    return Recipe.query.get(id=id)
+
 
 @app.route("/calendar")
 def calendar():
@@ -133,10 +136,14 @@ def calendar():
     arr = []
     for i in range(1, 8):
         arr.append(i)
-    # ingridients = []
-    # for i in range(0, len(recipes)):
-    #    ingridients.append(recipes[i].split(""))
     return render_template("/calendar.html", days=days, arr=arr)
+
+
+@app.route("/recipe/<int:recipe_id>")
+def recipe_info(recipe_id):
+    recipe = get_recipe_by_id(recipe_id)
+    ingredients = recipe.ingredients.split(", ")
+    return render_template("recipe.html", recipe=recipe, ingredients=ingredients)
 
   
 def save_recipe(recipe_info: dict, day: float):
