@@ -28,9 +28,7 @@ def generate_recipes(input_info):
         "type": "int"
       },
       "ingredients": {
-        "type": "array",
-        "items": {
-          "type": "string"
+        "type": "string"
         }
       },
       "instructions": {
