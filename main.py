@@ -9,6 +9,7 @@ from flask_login import (
 )
 from flask_sqlalchemy import SQLAlchemy
 from config import Config
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
@@ -17,7 +18,7 @@ USERNAME, PASSWORD, HOST, DATABASE_NAME = "MyUser", "MyPassword", "localhost", "
 app.config.from_object(Config)
 
 db = SQLAlchemy(app)
-
+mail = Mail(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
