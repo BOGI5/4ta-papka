@@ -103,17 +103,18 @@ def logout():
 
 
 def get_recipes():
-    temp = Recipe.query.filter_by(user=current_user.id).all().order_by(Recipe.day)
+    temp = Recipe.query.filter_by(user=current_user.id).all()
+    temp = sorted(temp, key=lambda x: x.day)
     days = []
     for i in range(0, 7):
         days.append([])
     for i in range(0, len(temp)):
-        days[temp[i].day / 1].append(temp[i])
+        days[int(temp[i].day) - 1].append(temp[i])
     return days
 
 
 def get_recipe_by_id(id: int):
-    return Recipe.query.get(id=id)
+    return Recipe.query.get(id)
 
 
 @app.route("/calendar")
@@ -142,8 +143,8 @@ def calendar():
 @app.route("/recipe/<int:recipe_id>")
 def recipe_info(recipe_id):
     recipe = get_recipe_by_id(recipe_id)
-    ingredients = recipe.ingredients.split(", ")
-    return render_template("recipe.html", recipe=recipe, ingredients=ingredients)
+    ingridients = recipe.ingridients.split(", ")
+    return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
 
   
 def save_recipe(recipe_info: dict, day: float):
