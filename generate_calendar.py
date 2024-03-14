@@ -34,10 +34,7 @@ def string_to_dictionary(string):
 
 def calculate_calendar(input):
     recipes_string = generate_recipes(input)
-    print("recipes_string:", recipes_string)  # Debugging print
     recipes = string_to_dictionary(recipes_string)
-    print("recipes:", recipes) 
-    
     if 'error' in recipes:
         return recipes
     
@@ -55,17 +52,13 @@ def calculate_calendar(input):
         meal_day = f"Day {day}"
         calendar[meal_day] = []
         
-        if meals_per_week >= (8-day) * 7:
+        if meals_per_week >= (7-day) * meals_per_day:
             calendar[meal_day].append(sorted_recipes_desc[recipes_index]["label"])
             meals_per_week -= int(sorted_recipes_desc[recipes_index]["number_of_meals"])
             recipes_index += 1
             
     return calendar
 
-
-
-
-    
 
 input_info = {
   "cuisine_preference": "Italian, Mexican",
