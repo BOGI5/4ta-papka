@@ -8,15 +8,13 @@ from flask_login import (
     logout_user,
 )
 from flask_sqlalchemy import SQLAlchemy
+from config import Config
 
 app = Flask(__name__)
 
-USERNAME, PASSWORD, HOST, DATABASE_NAME = "disheat", "MyPassword", "localhost", "Users"
+USERNAME, PASSWORD, HOST, DATABASE_NAME = "MyUser", "MyPassword", "localhost", "Users"
 
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    f"mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}/{DATABASE_NAME}"
-)
-app.config["SECRET_KEY"] = "MySecretKey"
+app.config.from_object(Config)
 
 db = SQLAlchemy(app)
 
@@ -90,6 +88,12 @@ def login():
 @login_required
 def logout():
     logout_user()
+
+
+def send_email(recipient: str, body: str):
+    message = Message(subject="DishEat", recipients=recipient)
+    message.body = body
+    mail.send(message)
 
 
 if __name__ == "__main__":
