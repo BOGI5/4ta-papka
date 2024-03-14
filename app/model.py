@@ -23,7 +23,6 @@ class Recipe(db.Model):
     calories = db.Column(db.Integer, nullable=False)
     ingridients = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     instructions = db.Column(db.String(5000), nullable=False)
-    date = db.Column(db.DateTime, nullable=False)
 
     __table_args__ = (
         db.UniqueConstraint('label', 'user'),
