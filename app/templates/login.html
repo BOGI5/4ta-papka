@@ -15,12 +15,20 @@
     <img id="plate" src="../static/blackplate.jpg" alt="blackplate">
 
     <form id="forms" method="post">
-        <img id = "logo" src="../static/logo.webp" alt="logo">
+        <img id="logo" src="../static/logo.webp" alt="logo">
         <input type="email" name="email" id="email" placeholder="Email" required>
         <input type="password" name="password" id="password" placeholder="Password" required>
         <input type="submit" value="Log in" id="submitter">
 
     </form>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    {{ message }}
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
 
 </body>
 
