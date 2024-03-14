@@ -3,45 +3,85 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Sign up</title>
+    <title>Calendar</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="../static/calendar.css">
     <link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/calendar.css">  
 </head>
 
 <body>
 
-    <!--img id="bg" src="../static/top-close-up-view-plate-cookies-plate-appetizing-cookies-with-chocolate-strawberry-left-side-table.jpg" alt="image"-->
+    <img id="bg" src="../static/calendarbg.jpg" alt="image">
     <header>
       <a href="/form">
-        <button>Create new meal plan</button>
+        <button class="ih" id="create">Create new meal plan</button>
       </a>
       <h1>{{user}}</h1>
-      <button>Logout</button>
-      <button>Delete profile</button>
+      <button class="ih" id="logout">Logout</button>
+      <button class="ih" id="del">Delete profile</button>
     </header>
 
-    <table>
-        <tr class="days">
-            {%for i in arr%}
-                <th> {{i}} </th>
-            {% endfor %}
-
-        </tr>
-
-        <tr class="rows">
-          {%for day in days%}
-            {%for recipe in day%}
-                    <td class="meal"> 
-                        {{recipe.label}}
-                    </td>
-                    <a href="/recipe/{{ recipe.id }}">See more</a>
-            {% endfor %}
-          {% endfor %}
-        </tr>
-        
-        
-    </tr>
+    <h2>Your meal calendar</h2>
+    <div id="container">
+      <table>
+          <tr class="days">
+              <!-- {%for i in arr%}
+                  <th> {{i}} </th>
+              {% endfor %} -->
+              <th> Day 1 </th>
+              <th> Day 2 </th>
+              <th> Day 3 </th>
+              <th> Day 4 </th>
+              <th> Day 5 </th>
+              <th> Day 6 </th>
+              <th> Day 7 </th>
+          </tr>
+          <tr class="rows">
+            <!-- {%for day in days%}
+              {%for recipe in day%}
+                      <td class="meal"> 
+                          <p>{{recipe.label}}</p>
+                          <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+                      </td>
+              {% endfor %}
+            {% endfor %} -->
+            <td class="meal"> 
+              <p>Eggs</p>
+              <p>15min</p>
+              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+            </td>
+            <td class="meal"> 
+              <p>Eggs</p>
+              <p>15min</p>
+              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+            </td>
+            <td class="meal"> 
+              <p>Eggs</p>
+              <p>15min</p>
+              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+            </td>
+            <td class="meal"> 
+              <p>Eggs ASDF</p>
+              <p>15min</p>
+              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+            </td>
+            <td class="meal"> 
+              <p>Brtsd</p>
+              <p>15min</p>
+              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+            </td>
+            <td class="meal"> 
+              <p>Eggs</p>
+              <p>15min</p>
+              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+            </td>
+            <td class="meal"> 
+              <p>Eggs</p>
+              <p>15min</p>
+              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+            </td>
+          </tr>
+      </table>
+    </div>
