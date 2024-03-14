@@ -15,13 +15,40 @@
     <img id="plate" src="../static/blackplate.jpg" alt="blackplate">
 
     <form id="forms" method="post">
-        <img id = "logo" src="../static/logo.webp" alt="logo">
+        <img id="logo" src="../static/logo.webp" alt="logo">
+        {% if error == 1 %}
+        <input type="email" name="email" id="email" placeholder="Invalid Email" required>
+        <style>
+            #email {
+                border: 2px solid red;
+            }
+
+            #email::placeholder {
+                color: red;
+            }
+        </style>
+        {% else %}
         <input type="email" name="email" id="email" placeholder="Email" required>
-        <input type="password" name="password" id="password" placeholder="Password" required>
+        {% endif %}
+
+        {% if error == 2 %}
+        <input type="password" name="password" id="password" placeholder="Invalid Password">
+        <style>
+            #password {
+                border: 2px solid red;
+            }
+
+            #password::placeholder {
+                color: red;
+            }
+        </style>
+        {% else %}
+        <input type="password" name="password" id="password" placeholder="Password" required> {
+        {% endif %}
+        
+
         <input type="submit" value="Log in" id="submitter">
-
     </form>
-
 </body>
 
 </html>

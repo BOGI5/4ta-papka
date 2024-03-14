@@ -12,6 +12,8 @@ from app import app, db, login_manager
 from app.generate_calendar import calculate_calendar
 from app.model import Quiz, Recipe, User
 
+from datetime import datetime
+
 
 @login_manager.user_loader
 def user_loader(id):
@@ -48,17 +50,6 @@ def quiz():
         except Exception:
             return "Error"
         return redirect("/calendar")
-
-   # return calculate_calendar(
-       # {
-         #   "time": request.form["time"],
-         #   "allergic": request.form["allergic"],
-         #   "meals_per_day": request.form["meals_count"],
-          #  "preference": request.form["preference"],
-          #  "appliances": request.form["appliances"],
-         #   "skill_level": request.form["skill_level"],
-       # }
-    #)
 
 
 
@@ -112,37 +103,40 @@ def logout():
 
 
 def get_recipes():
-    return Recipe.query.filter_by(user=current_user.id).all()
+    temp = Recipe.query.filter_by(user=current_user.id).all().order_by(Recipe.day)
+    days = []
+    for i in range(0, 7):
+        days.append([])
+    for i in range(0, len(temp)):
+        days[temp[i].day / 1].append(temp[i])
+    return days
+
 
 
 @app.route("/calendar")
 def calendar():
-    save_recipe({
-        "Recipe": "Shopska salad",
-        "Time to make": 5,
-        "Calories": 55,
-        "Ingredients": "sfgjdlgldfjgjdf dfjdglfd",
-        "Instructions": "Some instructions"
-    })
-    save_recipe({
-        "Recipe": "Bolonnnanan",
-        "Time to make": 53,
-        "Calories": 5125,
-        "Ingredients": "sljdgjksdhkjsdhk",
-        "Instructions": "Some instructions"
-    })
-    save_recipe({
-        "Recipe": "Fish",
-        "Time to make": 5111,
-        "Calories": 5577,
-        "Ingredients": "shgfjsdhjh lsflhdwl",
-        "Instructions": "Some instructions"
-    })
-    recipes = get_recipes()
-    return render_template("/calendar.html", recipes=recipes)
+    quiz = get_user_quiz()
+    quiz_dict = {
+            "time": quiz.time,
+            "allergic": quiz.allergic,
+            "meals_per_day": quiz.meals_count,
+            "preference": quiz.preferences,
+            "appliances": quiz.appliances,
+            "skill_level": quiz.skill_level,
+        }
+    calendar = calculate_calendar(quiz_dict)
+    for i in range(0, 7):
+        recipes_list = calendar[f"Day {1 + i}"]
+        for j in range(0, len(recipes_list)):
+            save_recipe(recipes_list[j], (1 + i) + ((j + 1) / 10))
+    days = get_recipes()
+    # ingridients = []
+    # for i in range(0, len(recipes)):
+    #    ingridients.append(recipes[i].split(""))
+    return render_template("/calendar.html", days=days)
 
   
-def save_recipe(recipe_info: dict):
+def save_recipe(recipe_info: dict, day: float):
     recipe = Recipe(
         user=current_user.id,
         label=recipe_info["Recipe"],
@@ -150,9 +144,15 @@ def save_recipe(recipe_info: dict):
         calories=recipe_info["Calories"],
         ingridients=recipe_info["Ingredients"],
         instructions=recipe_info["Instructions"],
+        number_of_meals=recipe_info["number_of_meals"],
+        day=day
     )
     try:
         db.session.add(recipe)
         db.session.commit()
     except Exception:
         return "This meal exists!"
+    
+
+def get_user_quiz():
+    return Quiz.query.filter_by(user=current_user.id).first
