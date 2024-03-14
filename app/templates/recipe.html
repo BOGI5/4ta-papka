@@ -18,9 +18,11 @@
         <p>This meal will take you {{recipe.total_time}} hours to make.</p>
         <p>This meal will contain {{recipe.calories}} calories.</p>
         <p>All the needed ingredients for this meal are:</p>
-        {%for ingredient in ingredients%}
-            <p>{{ingredient}}</p>
-        {%endfor%}
+        <p>
+            {%for ingredient in ingredients%}
+                {{ingredient}}
+            {%endfor%}
+        </p>
         <p>Follow the instructions to prepare your meal:</p>
         <p>{{recipe.instruction}}</p>
     </div>
