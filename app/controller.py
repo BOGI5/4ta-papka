@@ -8,8 +8,9 @@ from flask_login import (
 )
 
 from app import app, db, login_manager
-from app.model import User, Recipe, Quiz
-from datetime import datetime
+
+from app.generate_calendar import calculate_calendar
+from app.model import Quiz, Recipe, User
 
 
 @login_manager.user_loader
@@ -30,6 +31,7 @@ def quiz():
     if request.method == "GET":
         return render_template("form.html", name=current_user.name)
 
+
     elif request.method == "POST":
         quiz = Quiz(
             user=current_user.id,
@@ -46,7 +48,18 @@ def quiz():
         except Exception:
             return "Error"
         return redirect("/calendar")
-    
+
+   # return calculate_calendar(
+       # {
+         #   "time": request.form["time"],
+         #   "allergic": request.form["allergic"],
+         #   "meals_per_day": request.form["meals_count"],
+          #  "preference": request.form["preference"],
+          #  "appliances": request.form["appliances"],
+         #   "skill_level": request.form["skill_level"],
+       # }
+    #)
+
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -128,13 +141,18 @@ def calendar():
     recipes = get_recipes()
     return render_template("/calendar.html", recipes=recipes)
 
-
+  
 def save_recipe(recipe_info: dict):
-    recipe = Recipe(user=current_user.id, label=recipe_info["Recipe"], total_time=recipe_info["Time to make"], calories=recipe_info["Calories"], 
-                    ingridients=recipe_info["Ingredients"], instructions=recipe_info["Instructions"])#, date=recipe_info["Date"])
+    recipe = Recipe(
+        user=current_user.id,
+        label=recipe_info["Recipe"],
+        total_time=recipe_info["Time to make"],
+        calories=recipe_info["Calories"],
+        ingridients=recipe_info["Ingredients"],
+        instructions=recipe_info["Instructions"],
+    )
     try:
         db.session.add(recipe)
         db.session.commit()
     except Exception:
         return "This meal exists!"
-

@@ -13,7 +13,37 @@ def generate_recipes(input_info):
         "You are a cooking assistant. Make a list of 10 recipes. Format them like a json file and print ONLY then info.You should have label, totalTime(Time to make), calories, instructions(step by step in one string), ingridients and number_of_meals:\n"
         "Use this info:\n"
         f"{input_formatted}"
-    )
+        "Use ONLY this scheme:"'''
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "label": {
+        "type": "string"
+      },
+      "totalTime": {
+        "type": "string"
+      },
+      "calories": {
+        "type": "int"
+      },
+      "ingredients": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        }
+      },
+      "instructions": {
+        "type": "string"
+      },
+      "number_of_meals": {
+        "type": "int"
+      }
+    },
+    "required": ["label", "totalTime", "calories", "ingredients", "instructions", "number_of_meals"],
+    "additionalProperties": false
+  }
+''')
 
     
     response = client.chat.completions.create(
@@ -52,23 +82,9 @@ def calculate_calendar(input):
         meal_day = f"Day {day}"
         calendar[meal_day] = []
         
-        if meals_per_week >= (7-day) * meals_per_day:
-            calendar[meal_day].append(sorted_recipes_desc[recipes_index]["label"])
+        if meals_per_week >= (7-day) * int(meals_per_day):
+            calendar[meal_day].append(sorted_recipes_desc[recipes_index])
             meals_per_week -= int(sorted_recipes_desc[recipes_index]["number_of_meals"])
             recipes_index += 1
             
     return calendar
-
-
-input_info = {
-  "cuisine_preference": "Italian, Mexican",
-  "favorite_foods": ["lasagna", "tacos", "sushi"],
-  "dietary_restrictions": "none",
-  "dislikes_allergies": ["shellfish"],
-  "cooking_skill_level": "intermediate",
-  "specific_appliances": ["slow cooker", "blender"],
-  "available_prep_time": "30 to 45 minutes",
-  "meals_per_day": 3
-}
-
-print(calculate_calendar(input_info))
