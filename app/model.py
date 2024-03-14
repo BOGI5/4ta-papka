@@ -27,3 +27,14 @@ class Recipe(db.Model):
     __table_args__ = (
         db.UniqueConstraint('label', 'user'),
     )
+
+
+class Quiz(db.Model):
+    TEXT_MAX_SIZE = 300
+    user = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
+    time = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    allergic = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    meals_count = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    preference = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    appliances = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    skill_level = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
