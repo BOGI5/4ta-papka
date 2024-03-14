@@ -21,6 +21,7 @@ img {
     flex-direction: column; /* Add this line */
     align-items: center;
     justify-content: center;
+    
 }
 
 input {
@@ -42,17 +43,31 @@ body {
 #email,
 #password,
 #submitter {
-    height: 50px;
-    width: 300px;
-    background-color: #ffffff;
-    color: rgb(0, 0, 0);
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'Roboto', sans-serif;
+    height: 50%;
+    width: 100%;
+    background-color: #dfd9d3c6;
     opacity: 1000;
-    font-size: 30px;
     transition: 0.3s;
-    margin-right: 10px;
+
+    color: #DFD9D3;
+    border: none;
+    border-radius: 0.5em;
+    cursor: pointer;
+    opacity: 1000;
+    font-size: 2.5vw;
+    padding-inline-start: 3%;
+    padding-inline-end: 3%;
+
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
     
+}
+
+#email:hover,
+#password:hover,
+#submitter:hover {
+    background-color: #DFD9D3;
+    color: #696663
+
 }
