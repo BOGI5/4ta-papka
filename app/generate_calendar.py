@@ -11,7 +11,7 @@ def generate_recipes(input_info):
     print("start")
     content = (
         "You are a cooking assistant. Make a list of 10 recipes. Format them like a json file and print ONLY then info.You should have label, totalTime(Time to make), calories, instructions(step by step in one string), ingridients and number_of_meals:\n"
-        "Use this info:\n"
+        "This is the user's input. It is very imoprtant!!!:\n"
         f"{input_formatted}"
         "Use ONLY this scheme:"'''
   "type": "array",
