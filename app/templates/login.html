@@ -16,7 +16,7 @@
 
     <form id="forms" method="post">
         <img id="logo" src="../static/logo.webp" alt="logo">
-        {% if error == "Invalid Email" %}
+        {% if error == 1 %}
         <input type="email" name="email" id="email" placeholder="Invalid Email" required>
         <style>
             #email {
@@ -31,7 +31,7 @@
         <input type="email" name="email" id="email" placeholder="Email" required>
         {% endif %}
 
-        {% if error == "Invalid Password" %}
+        {% if error == 2 %}
         <input type="password" name="password" id="password" placeholder="Invalid Password">
         <style>
             #password {
@@ -42,10 +42,10 @@
                 color: red;
             }
         </style>
-        % else %
+        {% else %}
         <input type="password" name="password" id="password" placeholder="Password" required> {
-        % endif %
-        }
+        {% endif %}
+        
 
         <input type="submit" value="Log in" id="submitter">
     </form>
