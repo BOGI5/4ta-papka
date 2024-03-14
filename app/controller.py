@@ -149,11 +149,11 @@ def recipe_info(recipe_id):
 def save_recipe(recipe_info: dict, day: float):
     recipe = Recipe(
         user=current_user.id,
-        label=recipe_info["Recipe"],
-        total_time=recipe_info["Time to make"],
-        calories=recipe_info["Calories"],
-        ingridients=recipe_info["Ingredients"],
-        instructions=recipe_info["Instructions"],
+        label=recipe_info["label"],
+        total_time=recipe_info["totalTime"],
+        calories=recipe_info["calories"],
+        ingridients=recipe_info["ingredients"],
+        instructions=recipe_info["instructions"],
         number_of_meals=recipe_info["number_of_meals"],
         day=day
     )
