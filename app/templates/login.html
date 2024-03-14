@@ -16,20 +16,22 @@
 
     <form id="forms" method="post">
         <img id="logo" src="../static/logo.webp" alt="logo">
+        {% if error="Invalid Email" %}
+        <input type="email" name="email" id="email" placeholder="Invalid Email" required style="color: red">
+        {% else %}
         <input type="email" name="email" id="email" placeholder="Email" required>
+        {% endif %}
+        
+        {% if error="Invalid Password" %}
+        <input type="password" name="password" id="password" placeholder="Invalid Password" required style="color: red;">
+        {% else %}
         <input type="password" name="password" id="password" placeholder="Password" required>
+        {% endif %}
+
         <input type="submit" value="Log in" id="submitter">
 
     </form>
 
-    {% with messages = get_flashed_messages() %}
-    {% if messages %}
-    <ul class="flashes">
-        {% for message in messages %}
-        <li>{{ message }}</li>
-        {% endfor %}
-    {% endif %}
-    {% endwith %}
 
 </body>
 
