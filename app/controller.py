@@ -8,7 +8,7 @@ from flask_login import (
 )
 
 from app import app, db, login_manager
-from app.model import User, Recipe
+from app.model import User, Recipe, Quiz
 
 
 @login_manager.user_loader
@@ -29,14 +29,21 @@ def quiz():
     if request.method == "GET":
         return render_template("form.html", name=current_user.name)
 
-    return {
-        "time": request.form["time"],
-        "allergic": request.form["allergic"],
-        "meals_count": request.form["meals_count"],
-        "preference": request.form["preference"],
-        "appliances": request.form["appliances"],
-        "skill_level": request.form["skill_level"],
-    }
+    quiz = Quiz(
+        user=current_user.id,
+        time=request.form["time"],
+        allergic=request.form["allergic"],
+        meals_count=request.form["meals_count"],
+        preference=request.form["preference"],
+        appliances=request.form["appliances"],
+        skill_level=request.form["skill_level"],
+    )
+    try:
+        db.session.add(quiz)
+        db.session.commit()
+    except Exception:
+        return "Error"
+    
 
 
 @app.route("/signup", methods=["GET", "POST"])
