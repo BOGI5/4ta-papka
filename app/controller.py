@@ -1,26 +1,6 @@
+from app import app, db
+from model import *
 from flask import Flask, render_template, request
-from flask_sqlalchemy import SQLAlchemy
-
-app = Flask(__name__)
-
-USERNAME, PASSWORD, HOST, DATABASE_NAME = "MyUser", "MyPassword", "localhost", "Users"
-
-app.config["SQLALCHEMY_DATABASE_URI"] = (
-    f"mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}/{DATABASE_NAME}"
-)
-app.config["SECRET_KEY"] = "MySecretKey"
-
-db = SQLAlchemy(app)
-
-
-class User(db.Model):
-    TEXT_MAX_SIZE = 300
-    email = db.Column(db.String(TEXT_MAX_SIZE), primary_key=True)
-    name = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
-    password = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
-
-    def __repr__(self) -> str:
-        return f"Email: {self.email}"
 
 
 @app.route("/")
@@ -57,9 +37,4 @@ def login():
     password = request.form["password"]
 
 
-if __name__ == "__main__":
-    with app.app_context():
-        db.drop_all()
-        db.create_all()
 
-    app.run(debug=True)
