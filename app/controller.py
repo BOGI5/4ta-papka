@@ -8,7 +8,7 @@ from flask_login import (
 )
 
 from app import app, db, login_manager
-from app.model import User
+from app.model import User, Recipe
 
 
 @login_manager.user_loader
@@ -86,3 +86,15 @@ def login():
 def logout():
     logout_user()
     return "Ok"
+
+
+
+def save_recipe(recipe_info: dict):
+    recipe = Recipe(user=current_user.id, label=recipe_info["Recipe"], total_time=recipe_info["Time to make"],
+                    calories=recipe_info["Calories"], ingridients=recipe_info["Ingredients"], instructions=recipe_info["Instructions"])
+    try:
+        db.session.add(recipe)
+        db.session.commit()
+    except Exception:
+        return "This meal exists!"
+
