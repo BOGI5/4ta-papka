@@ -120,7 +120,7 @@ def calendar():
             "time": quiz.time,
             "allergic": quiz.allergic,
             "meals_per_day": quiz.meals_count,
-            "preference": quiz.preferences,
+            "preference": quiz.preference,
             "appliances": quiz.appliances,
             "skill_level": quiz.skill_level,
         }
@@ -158,4 +158,4 @@ def save_recipe(recipe_info: dict, day: float):
     
 
 def get_user_quiz():
-    return Quiz.query.filter_by(user=current_user.id).first
+    return Quiz.query.filter_by(user=current_user.id).first()
