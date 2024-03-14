@@ -58,17 +58,3 @@ def calculate_calendar(input):
             recipes_index += 1
             
     return calendar
-
-
-input_info = {
-  "cuisine_preference": "Italian, Mexican",
-  "favorite_foods": ["lasagna", "tacos", "sushi"],
-  "dietary_restrictions": "none",
-  "dislikes_allergies": ["shellfish"],
-  "cooking_skill_level": "intermediate",
-  "specific_appliances": ["slow cooker", "blender"],
-  "available_prep_time": "30 to 45 minutes",
-  "meals_per_day": 3
-}
-
-print(calculate_calendar(input_info))
