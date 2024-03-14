@@ -1,6 +1,6 @@
 from app import app, db
 from model import *
-from flask import Flask, render_template, request
+from flask import render_template, request
 
 
 @app.route("/")
