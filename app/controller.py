@@ -1,9 +1,14 @@
 from flask import redirect, render_template, request
-from flask_login import current_user, login_required, login_user, logout_user
-from flask_mail import Message
+from flask_login import (
+    AnonymousUserMixin,
+    current_user,
+    login_required,
+    login_user,
+    logout_user,
+)
 
-from app import app, db, login_manager, mail
-from app.model import Guest, User
+from app import app, db, login_manager
+from app.model import User
 
 
 @login_manager.user_loader
@@ -19,7 +24,9 @@ def main():
 
 @app.route("/menu")
 def menu():
-    return render_template("form.html", current_user=current_user)
+    if isinstance(current_user, AnonymousUserMixin):
+        return "No"
+    return render_template("form.html", name=current_user.name)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -69,9 +76,3 @@ def login():
 def logout():
     logout_user()
     return "Ok"
-
-
-def send_email(recipient, body: str):
-    message = Message(subject="DishEat", recipients=[recipient])
-    message.body = body
-    mail.send(message)
