@@ -31,6 +31,7 @@ class Recipe(db.Model):
 
 class Quiz(db.Model):
     TEXT_MAX_SIZE = 300
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user = db.Column(db.Integer, db.ForeignKey('user.id'), unique=True)
     time = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     allergic = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
