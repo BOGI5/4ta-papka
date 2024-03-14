@@ -11,7 +11,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
 
-USERNAME, PASSWORD, HOST, DATABASE_NAME = "MyUser", "MyPassword", "localhost", "Users"
+USERNAME, PASSWORD, HOST, DATABASE_NAME = "disheat", "MyPassword", "localhost", "Users"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = (
     f"mysql+pymysql://{USERNAME}:{PASSWORD}@{HOST}/{DATABASE_NAME}"
