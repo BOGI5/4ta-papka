@@ -8,7 +8,8 @@ from flask_login import (
 )
 
 from app import app, db, login_manager
-from app.model import User, Recipe, Quiz
+from app.generate_calendar import calculate_calendar
+from app.model import Quiz, Recipe, User
 
 
 @login_manager.user_loader
@@ -43,7 +44,17 @@ def quiz():
         db.session.commit()
     except Exception:
         return "Error"
-    
+
+    return calculate_calendar(
+        {
+            "time": request.form["time"],
+            "allergic": request.form["allergic"],
+            "meals_per_day": request.form["meals_count"],
+            "preference": request.form["preference"],
+            "appliances": request.form["appliances"],
+            "skill_level": request.form["skill_level"],
+        }
+    )
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -95,13 +106,17 @@ def logout():
     return "Ok"
 
 
-
 def save_recipe(recipe_info: dict):
-    recipe = Recipe(user=current_user.id, label=recipe_info["Recipe"], total_time=recipe_info["Time to make"],
-                    calories=recipe_info["Calories"], ingridients=recipe_info["Ingredients"], instructions=recipe_info["Instructions"])
+    recipe = Recipe(
+        user=current_user.id,
+        label=recipe_info["Recipe"],
+        total_time=recipe_info["Time to make"],
+        calories=recipe_info["Calories"],
+        ingridients=recipe_info["Ingredients"],
+        instructions=recipe_info["Instructions"],
+    )
     try:
         db.session.add(recipe)
         db.session.commit()
     except Exception:
         return "This meal exists!"
-
