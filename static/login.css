@@ -48,6 +48,7 @@ body {
 
 #email,
 #password,
+#name,
 #submitter {
     height: 25%;
     width: 60%;
@@ -71,6 +72,7 @@ body {
 }
 
 #email:hover,
+#name:hover,
 #password:hover,
 #submitter:hover {
     background-color: #DFD9D3;
