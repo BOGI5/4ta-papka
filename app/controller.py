@@ -71,8 +71,9 @@ def send_email(recipient, body: str):
     mail.send(message)
 
 
-def add_receipe(receipe_data: dict):
-    receipe = Receipe(user=current_user["id"], label=receipe_data["Receipe"], total_time=receipe_data["Time to make"], 
-                      calories=receipe_data["Calories"], ingridients=receipe_data["Ingredients"], instructions=receipe_data["Instructions"])
-    db.session.add(receipe)
+def add_recipe(recipe_data: dict):
+    print(recipe_data["Recipe"])
+    recipe = Recipe(user=current_user.id, label=recipe_data["Recipe"], total_time=recipe_data["Time to make"], 
+                      calories=recipe_data["Calories"], ingridients=recipe_data["Ingredients"], instructions=recipe_data["Instructions"])
+    db.session.add(recipe)
     db.session.commit()

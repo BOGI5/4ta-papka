@@ -14,7 +14,7 @@ class User(UserMixin, db.Model):
         return f"Email: {self.email}"
     
 
-class Receipe(db.Model):
+class Recipe(db.Model):
     TEXT_MAX_SIZE = 300
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user = db.Column(db.Integer, db.ForeignKey('user.id'))
