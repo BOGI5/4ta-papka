@@ -23,7 +23,7 @@
       <button>Logout</button>
       <button>Delete profile</button>
     </header>
-    
+
     <table>
         <tr class="days">
             
@@ -34,16 +34,16 @@
         </tr>
 
         <tr class="rows">
-            {%for day in days%}
+            {%for recipe in recipes%}
 
-                <td class="meals">{% for meal in day %}
+                <!--td class="meals">{% for meal in day %}-->
 
-                    <td class="meal"> {{ meal.mealName }}
-                        {{meal.image}}
+                    <td class="meal"> 
+                        {{meal.label}}
                     </td>
 
 
-                {%endfor%}</td>
+                <!--{%endfor%}</td-->
 
             {% endfor %}
         </tr>
