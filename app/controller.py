@@ -1,9 +1,9 @@
-from flask import render_template, request
+from flask import redirect, render_template, request
 from flask_login import current_user, login_required, login_user, logout_user
 from flask_mail import Message
 
 from app import app, db, login_manager, mail
-from app.model import *
+from app.model import Guest, User
 
 
 @login_manager.user_loader
@@ -11,9 +11,15 @@ def user_loader(id):
     return User.query.get(id)
 
 
+@login_required
 @app.route("/")
 def main():
     return render_template("index.html")
+
+
+@app.route("/menu")
+def menu():
+    return render_template("form.html", current_user=current_user)
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -35,7 +41,7 @@ def signup():
 
     login_user(user)
 
-    return "Ok"
+    return redirect("/menu")
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -55,7 +61,7 @@ def login():
 
     login_user(user)
 
-    return "Ok"
+    return redirect("/menu")
 
 
 @app.route("/logout")
@@ -69,11 +75,3 @@ def send_email(recipient, body: str):
     message = Message(subject="DishEat", recipients=[recipient])
     message.body = body
     mail.send(message)
-
-
-def add_recipe(recipe_data: dict):
-    print(recipe_data["Recipe"])
-    recipe = Recipe(user=current_user.id, label=recipe_data["Recipe"], total_time=recipe_data["Time to make"], 
-                      calories=recipe_data["Calories"], ingridients=recipe_data["Ingredients"], instructions=recipe_data["Instructions"])
-    db.session.add(recipe)
-    db.session.commit()
