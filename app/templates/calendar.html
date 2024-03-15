@@ -15,14 +15,13 @@
 
     <img id="bg" src="../static/calendarbg.jpg" alt="image">
     <header>
-      <a href="/quiz">
+      <a href="/quiz" id="acreate">
         <button class="ih" id="create">Create new meal plan</button>
       </a>
-      <h1>{{user}}</h1>
-      <a href="/logout">
+      <a href="/logout" id="alogout">
         <button class="ih" id="logout">Logout</button>
       </a>
-      <a href="/delete_user">
+      <a href="/delete_user" id="adel">
         <button class="ih" id="del">Delete profile</button>
       </a>
     </header>
@@ -55,14 +54,13 @@
         </tr>
         <tr class="rows">
           {% for day in days %}
-              
-            <td> 
               {% if day %}
-                {% for recipe in day %}
-                  <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-                {% endfor %}
+                  {% for recipe in day %}
+                      <td> 
+                          <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+                      </td>
+                  {% endfor %}
               {% endif %}
-            </td>
           {% endfor %}
       </tr>
     </table>

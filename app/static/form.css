@@ -37,7 +37,7 @@ h2 {
     text-align: center;
     font-size: 2.5vw;
     font-family: 'Roboto', sans-serif;
-    padding-top: 2%;
+    padding-top: 1%;
     
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
@@ -56,7 +56,6 @@ h2 {
     transform: translate(-50%, -50%);
     width: 70%;
     height: 70%;
-
     display: flex;
     flex-direction: column; /* Add this line */
     align-items: center;
@@ -80,7 +79,7 @@ input{
     border-radius: 0.5em;
     cursor: pointer;
     opacity: 1000;
-    font-size: 2vw;
+    font-size: 1.8vw;
     padding-inline-start: 3%;
     padding-inline-end: 3%;
 
@@ -103,8 +102,8 @@ body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    width: 80%;
-    height: 80%;
+    width: 84%;
+    height: 84%;
 }
 
 label {
@@ -167,7 +166,11 @@ label {
     font-style: normal;
 }
 
-.fl {
+div > input {
+    margin: 0;
+    padding: 0;
+    width: 0%;
+    height: 0%;
 }
 
 input:hover,
@@ -176,4 +179,9 @@ label:hover,
     background-color: #DFD9D3;
     color: #696663
 
+}
+
+input[type="radio"]:checked + label {
+    background-color: #DFD9D3;
+    color: #696663;
 }
