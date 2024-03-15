@@ -45,6 +45,7 @@ h1 {
     text-align: left;
     font-size: 2.5vw;
     padding-top: 1%;
+    margin-bottom: 0.5em;
     
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
@@ -56,6 +57,8 @@ p {
     text-align: left;
     font-size: 1.3vw;
     padding-top: 1%;
+    margin-bottom: 0.8em;
+    margin-top: 0.8em;
 
     max-width: 100%;
     
