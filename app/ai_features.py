@@ -94,6 +94,7 @@ def calculate_calendar(input):
             meals_per_week -= int(sorted_recipes_desc[recipes_index]["number_of_meals"])
             recipes_index += 1
 
+    print(calendar)
     return calendar
 
 
