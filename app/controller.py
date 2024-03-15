@@ -1,5 +1,5 @@
 from datetime import datetime
-
+from flask_mail import Message
 from flask import redirect, render_template, request
 from flask_login import (
     AnonymousUserMixin,
@@ -9,7 +9,7 @@ from flask_login import (
     logout_user,
 )
 
-from app import app, db, login_manager
+from app import app, db, login_manager, mail
 from app.generate_calendar import calculate_calendar
 from app.model import Quiz, Recipe, User
 from app.recipe_from_image import recipe_from_image
@@ -197,3 +197,9 @@ def save_recipe(recipe_info: dict, day: float):
 
 def get_user_quiz():
     return Quiz.query.filter_by(user=current_user.id).first()
+
+
+def send_email(recipient, body: str):
+    message = Message(subject="DishEat", recipients=[recipient])
+    message.body = body
+    mail.send(message)
