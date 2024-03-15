@@ -14,17 +14,19 @@
 <body>
     <img id="bg" src="../static/clipboard.jpg" alt="image">
     <div id="container">
-        <h1>{{recipe.label}}</h1>
-        <p>This meal will take you {{recipe.total_time}} hours to make.</p>
-        <p>This meal will contain {{recipe.calories}} calories.</p>
-        <p>All the needed ingredients for this meal are:</p>
-        <p>
-            {%for ingridient in ingridients%}
-                {{ingridient}}
-            {%endfor%}
-        </p>
-        <p>Follow the instructions to prepare your meal:</p>
-        <p>{{recipe.instruction}}</p>
+        <div id="container2">
+            <h1>{{recipe.label}}</h1>
+            <p>This meal will take you {{recipe.total_time}} minutes to make.</p>
+            <p>This meal will contain {{recipe.calories}} calories.</p>
+            <p>All the needed ingredients for this meal are:</p>
+            <p>
+                {%for ingridient in ingridients%}
+                    {{ingridient}}
+                {%endfor%}
+            </p>
+            <p>Follow the instructions to prepare your meal:</p>
+            <p>{{recipe.instructions}}</p>
+        </div>
     </div>
     
 </body>

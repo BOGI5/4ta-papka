@@ -1,3 +1,5 @@
+from datetime import datetime
+from flask_mail import Message
 from flask import redirect, render_template, request
 from flask_login import (
     AnonymousUserMixin,
@@ -7,12 +9,10 @@ from flask_login import (
     logout_user,
 )
 
-from app import app, db, login_manager
-
+from app import app, db, login_manager, mail
 from app.generate_calendar import calculate_calendar
 from app.model import Quiz, Recipe, User
-
-from datetime import datetime
+from app.recipe_from_image import recipe_from_image
 
 
 @login_manager.user_loader
@@ -26,13 +26,22 @@ def main():
     return render_template("index.html")
 
 
+@app.route("/fridge", methods=["GET", "POST"])
+def get_image():
+    if request.method == "GET":
+        return render_template("fridge.html")
+
+    image = request.form["imageData"].split("base64,")[1]
+
+    return render_template("recipe.html", recipe=recipe_from_image(image))
+
+
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
     if isinstance(current_user, AnonymousUserMixin):
         return "No"
     if request.method == "GET":
         return render_template("form.html", name=current_user.name)
-
 
     elif request.method == "POST":
         quiz = Quiz(
@@ -44,6 +53,13 @@ def quiz():
             appliances=request.form["appliances"],
             skill_level=request.form["skill_level"],
         )
+        prev_quiz = Quiz.query.filter_by(user=current_user.id).first()
+        if prev_quiz is not None:
+            db.session.delete(prev_quiz)
+            prev_recipes = Recipe.query.filter_by(user=current_user.id).all()
+            for recipe in prev_recipes:
+                db.session.delete(recipe)
+            db.session.commit()
         try:
             db.session.add(quiz)
             db.session.commit()
@@ -51,7 +67,6 @@ def quiz():
             return "Error"
         generate_calendar()
         return redirect("/calendar")
-
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -93,14 +108,28 @@ def login():
 
     login_user(user)
 
-    return redirect("/menu")
+    return redirect("/calendar")
+
+
+@app.route("/delete_user")
+@login_required
+def delete_user():
+    db.session.delete(Quiz.query.filter_by(user=current_user.id).first())
+    recipes = Recipe.query.filter_by(user=current_user.id).all()
+    for recipe in recipes:
+        db.session.delete(recipe)
+    temp = current_user
+    logout_user()
+    db.session.delete(temp)
+    db.session.commit()
+    return redirect("/")
 
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return "Ok"
+    return redirect("/")
 
 
 def get_recipes():
@@ -127,13 +156,13 @@ def calendar():
 def generate_calendar():
     quiz = get_user_quiz()
     quiz_dict = {
-            "time": quiz.time,
-            "allergic": quiz.allergic,
-            "meals_per_day": quiz.meals_count,
-            "preference": quiz.preference,
-            "appliances": quiz.appliances,
-            "skill_level": quiz.skill_level,
-        }
+        "time": quiz.time,
+        "allergic": quiz.allergic,
+        "meals_per_day": quiz.meals_count,
+        "preference": quiz.preference,
+        "appliances": quiz.appliances,
+        "skill_level": quiz.skill_level,
+    }
     calendar = calculate_calendar(quiz_dict)
     for i in range(0, 7):
         recipes_list = calendar[f"Day {1 + i}"]
@@ -147,7 +176,7 @@ def recipe_info(recipe_id):
     ingridients = recipe.ingridients.split(", ")
     return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
 
-  
+
 def save_recipe(recipe_info: dict, day: float):
     recipe = Recipe(
         user=current_user.id,
@@ -157,14 +186,20 @@ def save_recipe(recipe_info: dict, day: float):
         ingridients=recipe_info["ingredients"],
         instructions=recipe_info["instructions"],
         number_of_meals=recipe_info["number_of_meals"],
-        day=day
+        day=day,
     )
     try:
         db.session.add(recipe)
         db.session.commit()
     except Exception:
         return "This meal exists!"
-    
+
 
 def get_user_quiz():
     return Quiz.query.filter_by(user=current_user.id).first()
+
+
+def send_email(recipient: str, body: str, subject: str):
+    message = Message(subject=subject, recipients=[recipient])
+    message.body = body
+    mail.send(message)

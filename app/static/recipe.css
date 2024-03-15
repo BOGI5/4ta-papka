@@ -22,10 +22,23 @@ body {
     top: 0%;
     left: -10%;
     display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#container2 {
+    max-width: 50%;
+    max-height: 50%;
+    position: absolute;
+    top: 50%;
+    left: 55%;
+    transform: translate(-50%, -50%);
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
+
 
 h1 {
     color: #DFD9D3;
@@ -43,6 +56,8 @@ p {
     text-align: left;
     font-size: 1.3vw;
     padding-top: 1%;
+
+    max-width: 100%;
     
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
