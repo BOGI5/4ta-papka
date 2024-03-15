@@ -72,7 +72,17 @@ def quiz():
             db.session.commit()
         except Exception:
             return "Error"
-        generate_calendar()
+
+        try:
+            generate_calendar()
+        except Exception:
+            while True:
+                try:
+                    generate_calendar()
+                except Exception:
+                    continue
+                break
+
         return redirect("/calendar")
 
 
