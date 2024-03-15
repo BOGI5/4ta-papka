@@ -56,13 +56,13 @@
         </tr>
         <tr class="rows">
           {% for day in days %}
+            <td>
               {% if day %}
-                <td>
-                  {% for recipe in day %}
-                    <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-                  {% endfor %}
-                </td>
+                {% for recipe in day %}
+                  <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+                {% endfor %}
               {% endif %}
+            </td>
           {% endfor %}
       </tr>
     </table>
