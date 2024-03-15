@@ -101,14 +101,28 @@ def login():
 
     login_user(user)
 
-    return redirect("/menu")
+    return redirect("/calendar")
+
+
+@app.route("/delete_user")
+@login_required
+def delete_user():
+    db.session.delete(Quiz.query.filter_by(user=current_user.id).first())
+    recipes = Recipe.query.filter_by(user=current_user.id).all()
+    for recipe in recipes:
+        db.session.delete(recipe)
+    temp = current_user
+    logout_user()
+    db.session.delete(temp)
+    db.session.commit()
+    return redirect("/")
 
 
 @app.route("/logout")
 @login_required
 def logout():
     logout_user()
-    return "Ok"
+    return redirect("/")
 
 
 def get_recipes():
