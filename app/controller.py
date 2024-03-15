@@ -1,7 +1,7 @@
 from datetime import datetime, timedelta
 
 from flask import redirect
-from flask_login import current_user, login_required, logout_user
+from flask_login import AnonymousUserMixin, current_user, login_required, logout_user
 from flask_mail import Message
 
 from app import app, db, login_manager, mail
@@ -17,6 +17,9 @@ def user_loader(id):
 @app.route("/delete_user")
 @login_required
 def delete_user():
+    if isinstance(current_user, AnonymousUserMixin):
+        return redirect("/")
+
     db.session.delete(Quiz.query.filter_by(user=current_user.id).first())
     recipes = Recipe.query.filter_by(user=current_user.id).all()
     for recipe in recipes:
@@ -31,6 +34,9 @@ def delete_user():
 @app.route("/logout")
 @login_required
 def logout():
+    if isinstance(current_user, AnonymousUserMixin):
+        return redirect("/")
+
     logout_user()
     return redirect("/")
 

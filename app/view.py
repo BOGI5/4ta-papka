@@ -36,6 +36,9 @@ def dish():
 
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
+    if isinstance(current_user, AnonymousUserMixin):
+        return redirect("/")
+
     if request.method == "GET":
         return render_template("form.html", name=current_user.name)
 
@@ -110,6 +113,9 @@ def login():
 
 @app.route("/calendar")
 def calendar():
+    if isinstance(current_user, AnonymousUserMixin):
+        return redirect("/")
+
     render_template("loading.html")
     days = get_recipes()
     return render_template("/calendar.html", days=days)
@@ -117,6 +123,9 @@ def calendar():
 
 @app.route("/recipe/<int:recipe_id>")
 def recipe_info(recipe_id):
+    if isinstance(current_user, AnonymousUserMixin):
+        return redirect("/")
+
     recipe = get_recipe_by_id(recipe_id)
     ingridients = recipe.ingridients.split(", ")
     return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
@@ -124,15 +133,21 @@ def recipe_info(recipe_id):
 
 @app.route("/order", methods=["GET", "POST"])
 def get_user_info():
+    if isinstance(current_user, AnonymousUserMixin):
+        return redirect("/")
+
     if request.method == "GET":
         return render_template("order.html")
 
     latitude = request.form["latitude"]
     longitude = request.form["longitude"]
     phone = request.form["phone"]
+    recipes = Recipe.query.filter_by(user=current_user.id).all()
+    print(type(recipes))
+    ingredients = " ".join([recipe.ingridients for recipe in recipes])
 
     email_prompt = generate_email(
-        f"Address coordinates: {latitude}, {longitude} and phone number {phone}"
+        f"Address coordinates: {latitude}, {longitude} and phone number {phone}, email: {current_user.email}, sender name: {current_user.name}, ingredients: {ingredients}"
     )
 
     return send_email("kristiyan.p.simchev.2020@elsys-bg.org", email_prompt)
