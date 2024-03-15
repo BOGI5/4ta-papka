@@ -63,26 +63,24 @@ def quiz():
         return redirect("/calendar")
 
 
-@app.route("/signup", methods=["GET", "POST"])
-def signup():
+@app.route("/login", methods=["GET", "POST"])
+def login():
     if request.method == "GET":
-        return render_template("signup.html")
+        return render_template("login.html")
 
     email = request.form["email"]
-    name = request.form["name"]
     password = request.form["password"]
+    user = User.query.filter_by(email=email).first()
 
-    exists = User.query.filter_by(email=email).first()
-    if exists:
-        return "Email is not available"
+    if not user:
+        return render_template("login.html", error=1)
 
-    user = User(email=email, name=name, password=password)
-    db.session.add(user)
-    db.session.commit()
+    if user.password != password:
+        return render_template("login.html", error=2)
 
     login_user(user)
 
-    return redirect("/quiz")
+    return redirect("/calendar")
 
 
 @app.route("/login", methods=["GET", "POST"])
