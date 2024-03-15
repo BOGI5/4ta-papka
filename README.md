@@ -14,7 +14,7 @@ To get the project up and running on your system, you will need the following to
 
 ### Installation
 1. Clone the repository to your local machine:
-git clone https://github.com/BOGI5/4ta-papka/edit/main
+git clone https://github.com/BOGI5/4ta-papka
 
 2. Install the required libraries using pip:
 pip install -r requirements.txt
