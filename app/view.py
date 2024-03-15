@@ -25,7 +25,9 @@ def fridge():
     render_template("loading.html")
     image = request.form["imageData"].split("base64,")[1]
     recipe = generate_recipe_from_groceries_image(image)
-    return render_template("recipe.html", recipe=recipe)
+    ingridients = recipe["ingredients"].split(",")
+
+    return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
 
 
 @app.route("/dish", methods=["GET", "POST"])
@@ -36,7 +38,9 @@ def dish():
     render_template("loading.html")
     image = request.form["imageData"].split("base64,")[1]
     recipe = generate_recipe_from_meal_image(image)
-    return render_template("recipe.html", recipe=recipe)
+    ingridients = recipe["ingredients"].split(",")
+
+    return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
 
 
 @app.route("/quiz", methods=["GET", "POST"])
