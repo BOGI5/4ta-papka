@@ -12,7 +12,7 @@ from flask_login import (
 from app import app, db, login_manager, mail
 from app.generate_calendar import calculate_calendar
 from app.model import Quiz, Recipe, User
-#from app.recipe_from_image import recipe_from_image
+from app.recipe_from_image import recipe_from_image
 
 
 @login_manager.user_loader
@@ -52,6 +52,7 @@ def quiz():
             preference=request.form["preference"],
             appliances=request.form["appliances"],
             skill_level=request.form["skill_level"],
+            mode=request.form["goal"]
         )
         prev_quiz = Quiz.query.filter_by(user=current_user.id).first()
         if prev_quiz is not None:
@@ -164,6 +165,7 @@ def generate_calendar():
         "preference": quiz.preference,
         "appliances": quiz.appliances,
         "skill_level": quiz.skill_level,
+        "mode": quiz.mode
     }
     calendar = calculate_calendar(quiz_dict)
     for i in range(0, 7):

@@ -42,3 +42,4 @@ class Quiz(db.Model):
     preference = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     appliances = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     skill_level = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    mode = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
