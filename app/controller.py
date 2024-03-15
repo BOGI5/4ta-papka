@@ -49,6 +49,7 @@ def quiz():
             db.session.commit()
         except Exception:
             return "Error"
+        generate_calendar()
         return redirect("/calendar")
 
 
