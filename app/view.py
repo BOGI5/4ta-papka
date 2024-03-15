@@ -22,7 +22,6 @@ def fridge():
     if request.method == "GET":
         return render_template("fridge.html")
 
-    render_template("loading.html")
     image = request.form["imageData"].split("base64,")[1]
     recipe = generate_recipe_from_groceries_image(image)
     ingridients = recipe["ingredients"].split(",")
@@ -35,7 +34,6 @@ def dish():
     if request.method == "GET":
         return render_template("fridge.html")
 
-    render_template("loading.html")
     image = request.form["imageData"].split("base64,")[1]
     recipe = generate_recipe_from_meal_image(image)
     ingridients = recipe["ingredients"].split(",")
@@ -125,7 +123,6 @@ def calendar():
     if isinstance(current_user, AnonymousUserMixin):
         return redirect("/")
 
-    render_template("loading.html")
     days = get_recipes()
     return render_template("/calendar.html", days=days)
 
