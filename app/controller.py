@@ -1,3 +1,5 @@
+from datetime import datetime, timedelta
+from flask_mail import Message
 from flask import redirect, render_template, request
 from flask_login import (
     AnonymousUserMixin,
@@ -51,6 +53,7 @@ def quiz():
             preference=request.form["preference"],
             appliances=request.form["appliances"],
             skill_level=request.form["skill_level"],
+            mode=request.form["goal"]
         )
         prev_quiz = Quiz.query.filter_by(user=current_user.id).first()
         if prev_quiz is not None:
@@ -133,12 +136,14 @@ def logout():
 
 def get_recipes():
     temp = Recipe.query.filter_by(user=current_user.id).all()
-    temp = sorted(temp, key=lambda x: x.day)
+    temp = sorted(temp, key=lambda x: (x.date, x.meal_order))
     days = []
     for i in range(0, 7):
         days.append([])
     for i in range(0, len(temp)):
-        days[int(temp[i].day) - 1].append(temp[i])
+        day = (temp[i].date - datetime.now().date()).days
+        if day >= 0:
+            days[day].append(temp[i])
     return days
 
 
@@ -162,12 +167,13 @@ def generate_calendar():
         "preference": quiz.preference,
         "appliances": quiz.appliances,
         "skill_level": quiz.skill_level,
+        "mode": quiz.mode
     }
     calendar = calculate_calendar(quiz_dict)
     for i in range(0, 7):
         recipes_list = calendar[f"Day {1 + i}"]
         for j in range(0, len(recipes_list)):
-            save_recipe(recipes_list[j], (1 + i) + ((j + 1) / 10))
+            save_recipe(recipes_list[j], (datetime.now() + timedelta(days=i)), j + 1)
 
 
 @app.route("/recipe/<int:recipe_id>")
@@ -177,7 +183,7 @@ def recipe_info(recipe_id):
     return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
 
 
-def save_recipe(recipe_info: dict, day: float):
+def save_recipe(recipe_info: dict, date: datetime, meal_order: int):
     recipe = Recipe(
         user=current_user.id,
         label=recipe_info["label"],
@@ -186,7 +192,8 @@ def save_recipe(recipe_info: dict, day: float):
         ingridients=recipe_info["ingredients"],
         instructions=recipe_info["instructions"],
         number_of_meals=recipe_info["number_of_meals"],
-        day=day,
+        date=date,
+        meal_order=meal_order
     )
     try:
         db.session.add(recipe)
