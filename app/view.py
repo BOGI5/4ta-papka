@@ -1,15 +1,10 @@
 from flask import redirect, render_template, request
-from flask_login import (
-    AnonymousUserMixin,
-    current_user,
-    login_required,
-    login_user,
-    )
+from flask_login import AnonymousUserMixin, current_user, login_required, login_user
 
 from app import app, db
-from app.model import Quiz, Recipe, User
 from app.ai_features import *
 from app.controller import *
+from app.model import Quiz, Recipe, User
 
 
 @login_required
@@ -45,7 +40,7 @@ def quiz():
             preference=request.form["preference"],
             appliances=request.form["appliances"],
             skill_level=request.form["skill_level"],
-            mode=request.form["goal"]
+            mode=request.form["goal"],
         )
         prev_quiz = Quiz.query.filter_by(user=current_user.id).first()
         if prev_quiz is not None:
@@ -63,24 +58,26 @@ def quiz():
         return redirect("/calendar")
 
 
-@app.route("/login", methods=["GET", "POST"])
-def login():
+@app.route("/signup", methods=["GET", "POST"])
+def signup():
     if request.method == "GET":
-        return render_template("login.html")
+        return render_template("signup.html")
 
     email = request.form["email"]
+    name = request.form["name"]
     password = request.form["password"]
-    user = User.query.filter_by(email=email).first()
 
-    if not user:
-        return render_template("login.html", error=1)
+    exists = User.query.filter_by(email=email).first()
+    if exists:
+        return render_template("signup.html", error=1)
 
-    if user.password != password:
-        return render_template("login.html", error=2)
+    user = User(email=email, name=name, password=password)
+    db.session.add(user)
+    db.session.commit()
 
     login_user(user)
 
-    return redirect("/calendar")
+    return redirect("/quiz")
 
 
 @app.route("/login", methods=["GET", "POST"])
