@@ -7,7 +7,6 @@ from app.controller import *
 from app.model import Quiz, Recipe, User
 
 
-@login_required
 @app.route("/")
 def main():
     return render_template("index.html")
@@ -26,8 +25,6 @@ def get_image():
 
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-    if isinstance(current_user, AnonymousUserMixin):
-        return "No"
     if request.method == "GET":
         return render_template("form.html", name=current_user.name)
 
@@ -112,3 +109,19 @@ def recipe_info(recipe_id):
     recipe = get_recipe_by_id(recipe_id)
     ingridients = recipe.ingridients.split(", ")
     return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
+
+
+@app.route("/order", methods=["GET", "POST"])
+def get_user_info():
+    if request.method == "GET":
+        return render_template("order.html")
+
+    latitude = request.form["latitude"]
+    longitude = request.form["longitude"]
+    phone = request.form["phone"]
+
+    email_prompt = generate_email(
+        f"Address coordinates: {latitude}, {longitude} and phone number {phone}"
+    )
+
+    return send_email("georgestoyanov989@gmail.com", email_prompt)
