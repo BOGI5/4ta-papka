@@ -96,3 +96,8 @@ body {
     background-color: #ffffff;
     color: #696663
 }
+
+#imageInput,
+#uploader {
+    display: none;
+}
