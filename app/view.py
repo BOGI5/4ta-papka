@@ -13,7 +13,18 @@ def main():
 
 
 @app.route("/fridge", methods=["GET", "POST"])
-def get_image():
+def fridge():
+    if request.method == "GET":
+        return render_template("fridge.html")
+
+    render_template("loading.html")
+    image = request.form["imageData"].split("base64,")[1]
+    recipe = generate_recipe_from_groceries_image(image)
+    return render_template("recipe.html", recipe=recipe)
+
+
+@app.route("/dish", methods=["GET", "POST"])
+def dish():
     if request.method == "GET":
         return render_template("fridge.html")
 
