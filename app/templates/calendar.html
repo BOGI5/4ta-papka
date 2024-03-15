@@ -41,12 +41,14 @@
         <tr class="rows">
             {% for day in days %}
                 {% if day %}
+                  <td class="meal"> 
                     {% for recipe in day %}
-                        <td class="meal"> 
-                            <p>{{ recipe.label }}</p>
-                            <p>{{ recipe.total_time }}</p>
-                        </td>
-                    {% endfor %}    
+                      <div class="meal">
+                        <p>{{ recipe.label }}</p>
+                        <p>{{ recipe.total_time }}</p>
+                      </div>
+                    {% endfor %} 
+                  </td>   
                 {% else %}
                       <td class="meal">No meal planned</td>
                 {% endif %}
