@@ -32,10 +32,20 @@
             <label for="fitness">Fitness</label>
         </div>
 
-        <input class="fl" type="submit" id="sub" value="Submit" id="submitter">
+        <input class="fl" type="submit" id="sub" value="Submit" id="submitter" onclick="loadingScreen()">
 
     </form>
 
 </body>
+
+<script>
+    function loadingScreen() {
+        document.getElementById("forms").style.display = "none";
+        document.getElementById("bg").src = "../static/cropped.gif";
+        //insert loading GIF
+        document.createElement("img").src = "../static/loading.gif";
+
+    }
+</script>
 
 </html>
