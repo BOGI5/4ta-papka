@@ -80,23 +80,17 @@
 
         });
 
-        function loadingScreen(){
-            document.getElementById("GIF").style = "position: absolute; top: 50 %; left: 50 %; transform: translate(-50 %, -50 %); min-width: 30ch; min - height: 30ch; max-width: 10 %; max-height: 30 %; z-index: 150"
-            document.getElementById("BG").style = "display: block; position: absolute; top: 0; left: 0; z-index: 20000"
-        }
+        function loadingScreen() {
+        document.getElementById("forms").style.display = "none";
+        document.getElementById("imagePreview").style.display = "none";
+        document.getElementById("BG").src = "../static/cropped.gif";
+
+    }
 
     </script>
 </body>
 
 
-<script>
-    function loadingScreen() {
-        document.getElementById("forms").style.display = "none";
-        document.getElementById("imagePreview").style.display = "none";
-        document.getElementById("bg").src = "../static/cropped.gif";
-
-    }
-</script>
 
 
 </html>
