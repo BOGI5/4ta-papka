@@ -1,5 +1,4 @@
 import requests
-import base64
 import json
 
 with open("key.txt", "r") as file:
@@ -13,7 +12,7 @@ def string_to_dictionary(string):
         return {"error": f"Failed to parse string as JSON: {e}"}
 
 
-def recipe_from_image(imagebase64_image_path):
+def get_groceries_from_image(imagebase64_image_path):
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
 
     payload = {
@@ -26,7 +25,7 @@ def recipe_from_image(imagebase64_image_path):
                         "type": "text",
                         
                         "text": "You are a cooking assistant. Make a recipe. Format it like a json file and print ONLY the info.You should have label, totalTime(Time to make), calories, instructions(step by step in one string), ingridients and number_of_meals.\n"
-        "Use the ingridients that you see!!! It is very imoprtant!!! You can add or replace something small. You don't have to use all of them.:\n"
+        "Recognize what is the meal that you see and make a recipe for. You are able to recognize exactly 1 meal at every image!!! It is very imoprtant!!! You can add or replace something small. You don't have to use all of them.:\n"
         '''"Use ONLY this scheme AND RETURN only A VALID! JSON: (DONT INCLUDE ```json ```)"
     "{"
     "type": "object",
@@ -74,3 +73,4 @@ def recipe_from_image(imagebase64_image_path):
     response_content = response.json()["choices"][0]["message"]["content"]
     recipe = string_to_dictionary(response_content)
     return recipe
+
