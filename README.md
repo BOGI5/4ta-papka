@@ -26,7 +26,12 @@ flask run
 Afterwards, open a browser and enter the address shown in the console to access the DishEat web interface.
 
 ## How It Works
-After answering questions about your dietary preferences and allergies, the system uses the OpenAI API to analyze the input data and create personalized meal plans and recipes tailored to your needs. MySQL is used for storing user information and recipes, while the email functionality makes it easier to shop for the necessary ingredients.
+
+The website offers a comprehensive solution for personalized meal planning and recipe generation based on individual dietary preferences and allergies. Users begin by answering questions regarding their dietary needs, preferences, and any allergies they may have. Utilizing the OpenAI API, the system processes this input data to generate customized meal plans and recipes that cater specifically to the user's requirements.
+
+Additionally, users have the option to upload images of dishes or products. If a dish image is uploaded, the system provides the corresponding recipe to replicate it. Similarly, when users upload images of products, the system generates recipes suggesting how to utilize those products to create a delicious meal.
+
+Behind the scenes, MySQL is employed for efficient storage and management of user information and recipes. Moreover, the website incorporates email functionality, simplifying the process of shopping for the necessary ingredients by providing convenient shopping lists based on the generated meal plans and recipes. This comprehensive approach ensures a seamless and personalized culinary experience for users, catering to their unique dietary needs and culinary preferences.
 
 ## Authors
 - 4-та папка
