@@ -33,7 +33,7 @@
         <input type="hidden" name="imageData" id="imageData">
         <input type="submit" value="Upload" id="uploader" style="z-index: 150;">
 
-        <label for="uploader" id="login" class="fridge" ">Submit</label>
+        <label for="uploader" id="login" class="fridge" onclick="loadingScreen()">Submit</label>
         <canvas id="canvas" style="display: none;"></canvas>
     </form>
 
@@ -80,12 +80,14 @@
 
         });
 
+        
+
         function loadingScreen() {
+            console.log("FGHC FGH")
         document.getElementById("forms").style.display = "none";
         document.getElementById("imagePreview").style.display = "none";
         document.getElementById("BG").src = "../static/cropped.gif";
-
-    }
+        }
 
     </script>
 </body>
