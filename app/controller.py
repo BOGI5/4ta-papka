@@ -11,8 +11,8 @@ from flask_login import (
 
 from app import app, db, login_manager
 from app.generate_calendar import calculate_calendar
-#from app.get_groceries_from_image import get_groceries_from_image
 from app.model import Quiz, Recipe, User
+from app.recipe_from_image import recipe_from_image
 
 
 @login_manager.user_loader
@@ -33,7 +33,7 @@ def get_image():
 
     image = request.form["imageData"].split("base64,")[1]
 
-    #return get_groceries_from_image(image)
+    return render_template("recipe.html", recipe=recipe_from_image(image))
 
 
 @app.route("/quiz", methods=["GET", "POST"])
@@ -118,9 +118,9 @@ def delete_user():
     recipes = Recipe.query.filter_by(user=current_user.id).all()
     for recipe in recipes:
         db.session.delete(recipe)
-    temp = current_user.id
+    temp = current_user
     logout_user()
-    db.session.delete(User.query.filter_by(user=temp).first())
+    db.session.delete(temp)
     db.session.commit()
     return redirect("/")
 
