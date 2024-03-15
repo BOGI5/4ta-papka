@@ -1,0 +1,23 @@
+from openai import OpenAI
+import json
+
+with open("key.txt", "r") as file:
+    key = file.read()
+
+client = OpenAI(api_key = key)
+
+def generate_email(input_info):
+    input_formatted = '\n'.join([f"{key}: {value}" for key, value in input_info.items()])
+    content = (
+        "Write an email where you order this ingrideints, location, and phone number:i\n"
+        f"{input_formatted}"
+        "Return ONLY a dictionary IN JSON FORMAT! that includes body and subject as strings"
+    )
+    
+    response = client.chat.completions.create(
+        model="gpt-4",
+        messages=[{"role": "user", "content": content}]
+    )
+
+    response_content = response.choices[0].message.content
+    return response_content
