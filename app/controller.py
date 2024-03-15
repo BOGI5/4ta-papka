@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from flask import redirect, render_template, request
 from flask_login import (
     AnonymousUserMixin,
@@ -8,11 +10,9 @@ from flask_login import (
 )
 
 from app import app, db, login_manager
-
 from app.generate_calendar import calculate_calendar
+from app.get_groceries_from_image import get_groceries_from_image
 from app.model import Quiz, Recipe, User
-
-from datetime import datetime
 
 
 @login_manager.user_loader
@@ -26,13 +26,22 @@ def main():
     return render_template("index.html")
 
 
+@app.route("/fridge", methods=["GET", "POST"])
+def get_image():
+    if request.method == "GET":
+        return render_template("fridge.html")
+
+    image = request.form["imageData"].split("base64,")[1]
+
+    return get_groceries_from_image(image)
+
+
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
     if isinstance(current_user, AnonymousUserMixin):
         return "No"
     if request.method == "GET":
         return render_template("form.html", name=current_user.name)
-
 
     elif request.method == "POST":
         quiz = Quiz(
@@ -51,7 +60,6 @@ def quiz():
             return "Error"
         generate_calendar()
         return redirect("/calendar")
-
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -127,13 +135,13 @@ def calendar():
 def generate_calendar():
     quiz = get_user_quiz()
     quiz_dict = {
-            "time": quiz.time,
-            "allergic": quiz.allergic,
-            "meals_per_day": quiz.meals_count,
-            "preference": quiz.preference,
-            "appliances": quiz.appliances,
-            "skill_level": quiz.skill_level,
-        }
+        "time": quiz.time,
+        "allergic": quiz.allergic,
+        "meals_per_day": quiz.meals_count,
+        "preference": quiz.preference,
+        "appliances": quiz.appliances,
+        "skill_level": quiz.skill_level,
+    }
     calendar = calculate_calendar(quiz_dict)
     for i in range(0, 7):
         recipes_list = calendar[f"Day {1 + i}"]
@@ -147,7 +155,7 @@ def recipe_info(recipe_id):
     ingridients = recipe.ingridients.split(", ")
     return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
 
-  
+
 def save_recipe(recipe_info: dict, day: float):
     recipe = Recipe(
         user=current_user.id,
@@ -157,14 +165,14 @@ def save_recipe(recipe_info: dict, day: float):
         ingridients=recipe_info["ingredients"],
         instructions=recipe_info["instructions"],
         number_of_meals=recipe_info["number_of_meals"],
-        day=day
+        day=day,
     )
     try:
         db.session.add(recipe)
         db.session.commit()
     except Exception:
         return "This meal exists!"
-    
+
 
 def get_user_quiz():
     return Quiz.query.filter_by(user=current_user.id).first()
