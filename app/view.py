@@ -12,6 +12,11 @@ def main():
     return render_template("index.html")
 
 
+@app.route("/aboutus")
+def aboutus():
+    return render_template("aboutus.html")
+
+
 @app.route("/fridge", methods=["GET", "POST"])
 def fridge():
     if request.method == "GET":
