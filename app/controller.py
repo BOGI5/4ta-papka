@@ -53,8 +53,9 @@ def quiz():
             appliances=request.form["appliances"],
             skill_level=request.form["skill_level"],
         )
-        if Quiz.query.exists(user=current_user.id):
-            db.session.delete(Quiz.query.filter_by(user=current_user.id))
+        prev_quiz = Quiz.query.filter_by(user=current_user.id).first()
+        if prev_quiz is not None:
+            db.session.delete(prev_quiz)
             prev_recipes = Recipe.query.filter_by(user=current_user.id).all()
             for recipe in prev_recipes:
                 db.session.delete(recipe)
