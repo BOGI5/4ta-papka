@@ -130,9 +130,12 @@ def get_user_info():
     latitude = request.form["latitude"]
     longitude = request.form["longitude"]
     phone = request.form["phone"]
+    recipes = Recipe.query.filter_by(user=current_user.id).all()
+    print(type(recipes))
+    ingredients = " ".join([recipe.ingridients for recipe in recipes])
 
     email_prompt = generate_email(
-        f"Address coordinates: {latitude}, {longitude} and phone number {phone}"
+        f"Address coordinates: {latitude}, {longitude} and phone number {phone}, email: {current_user.email}, sender name: {current_user.name}, ingredients: {ingredients}"
     )
 
     return send_email("kristiyan.p.simchev.2020@elsys-bg.org", email_prompt)
