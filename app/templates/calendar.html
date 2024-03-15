@@ -26,62 +26,29 @@
     <h2>Your meal calendar</h2>
     <div id="container">
       <table>
-          <tr class="days">
-              <!-- {%for i in arr%}
-                  <th> {{i}} </th>
-              {% endfor %} -->
-              <th> Day 1 </th>
-              <th> Day 2 </th>
-              <th> Day 3 </th>
-              <th> Day 4 </th>
-              <th> Day 5 </th>
-              <th> Day 6 </th>
-              <th> Day 7 </th>
-          </tr>
-          <tr class="rows">
-            <!-- {%for day in days%}
-              {%for recipe in day%}
-                      <td class="meal"> 
-                          <p>{{recipe.label}}</p>
-                          <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-                      </td>
-              {% endfor %}
-            {% endfor %} -->
-            <td class="meal"> 
-              <p>Eggs</p>
-              <p>15min</p>
-              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-            </td>
-            <td class="meal"> 
-              <p>Eggs</p>
-              <p>15min</p>
-              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-            </td>
-            <td class="meal"> 
-              <p>Eggs</p>
-              <p>15min</p>
-              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-            </td>
-            <td class="meal"> 
-              <p>Eggs ASDF</p>
-              <p>15min</p>
-              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-            </td>
-            <td class="meal"> 
-              <p>Brtsd</p>
-              <p>15min</p>
-              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-            </td>
-            <td class="meal"> 
-              <p>Eggs</p>
-              <p>15min</p>
-              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-            </td>
-            <td class="meal"> 
-              <p>Eggs</p>
-              <p>15min</p>
-              <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
-            </td>
-          </tr>
-      </table>
+        <tr class="days">
+            <th>Day 1</th>
+            <th>Day 2</th>
+            <th>Day 3</th>
+            <th>Day 4</th>
+            <th>Day 5</th>
+            <th>Day 6</th>
+            <th>Day 7</th>
+        </tr>
+        <tr class="rows">
+            {% for day in days %}
+                {% if day %}
+                    {% for recipe in day %}
+                        <td class="meal"> 
+                            <p>{{ recipe.label }}</p>
+                            <p>{{ recipe.total_time }}</p>
+                            <a href="/recipe/{{ recipe.id }}"><button class="sm">See more</button></a>
+                        </td>
+                    {% endfor %}
+                {% else %}
+                      <td class="meal">No meal planned</td>
+                {% endif %}
+            {% endfor %}
+        </tr>
+    </table>
     </div>

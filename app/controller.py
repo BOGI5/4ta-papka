@@ -119,6 +119,11 @@ def get_recipe_by_id(id: int):
 
 @app.route("/calendar")
 def calendar():
+    days = get_recipes()
+    return render_template("/calendar.html", days=days)
+
+
+def generate_calendar():
     quiz = get_user_quiz()
     quiz_dict = {
             "time": quiz.time,
@@ -133,11 +138,6 @@ def calendar():
         recipes_list = calendar[f"Day {1 + i}"]
         for j in range(0, len(recipes_list)):
             save_recipe(recipes_list[j], (1 + i) + ((j + 1) / 10))
-    days = get_recipes()
-    arr = []
-    for i in range(1, 8):
-        arr.append(i)
-    return render_template("/calendar.html", days=days, arr=arr)
 
 
 @app.route("/recipe/<int:recipe_id>")

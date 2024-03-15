@@ -113,6 +113,8 @@ td {
     border: 2em;
     text-align: center;
     font-size: 1.5vw;
+    padding-left: 2em;
+    padding-right: 2em;
 }
 
 a {
