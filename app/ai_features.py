@@ -102,7 +102,7 @@ def generate_email(input_info):
     content = (
         "Write an email where you order this ingrideints, location, and phone number:i\n"
         f"{input_info}"
-        "Write ONLY the email body! Make it so it is ready to be send directly. Don't generate more signiture"
+        "Write ONLY the email body! Make it so it is ready to be send directly. Don't generate thing like [name]!!!"
     )
 
     response = client.chat.completions.create(
