@@ -14,19 +14,19 @@
 
     <img id="BG" src="../static/blackplate.jpg" alt="blackplate">
 
-    <div id="header">
-        <img id="imagePreview" alt="Uploaded Image" style="z-index: 100; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none;">
-    </div>
+    
+        <div id="imagePreview" alt="Uploaded Image" style="z-index: -1; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></div>
+    
 
     <div id="forms" class="fridgeForm">
 
         <!--a href="/signup" id="signup">Sign up</a-->
-        <input type="file" accept="image/*" id="imageInput">
+        <input type="file" accept="image/*" id="imageInput" style="z-index: 120;">
         <label for="imageInput" id="signup" class="fridge">Upload</label>
 
         <!--a href="/login" id="login">Log in</a-->
         <input type="hidden" name="imageData" id="imageData">
-        <input type="submit" value="Upload" id="uploader">
+        <input type="submit" value="Upload" id="uploader" style="z-index: 150;">
         <label for="imageData" id="login" class="fridge">Submit</label>
     </div>
 </body>
@@ -47,7 +47,7 @@
         reader.onload = function (event) {
             const imageUrl = event.target.result;
             const imagePreview = document.getElementById('imagePreview');
-            imagePreview.innerHTML = `<img src="${imageUrl}" alt="Uploaded Image" id="previewedImage">`;
+            imagePreview.innerHTML = `<img src="${imageUrl}" alt="Uploaded Image" id="displayedImage">`;
         }
 
         reader.readAsDataURL(file);

@@ -9,7 +9,7 @@ from flask_login import (
     logout_user,
 )
 
-from app import app, db, login_manager, mail
+from app import app, db, login_manager
 from app.generate_calendar import calculate_calendar
 from app.model import Quiz, Recipe, User
 from app.recipe_from_image import recipe_from_image
@@ -31,9 +31,10 @@ def get_image():
     if request.method == "GET":
         return render_template("fridge.html")
 
+    render_template("loading.html")
     image = request.form["imageData"].split("base64,")[1]
-
-    return render_template("recipe.html", recipe=recipe_from_image(image))
+    recipe = recipe_from_image(image)
+    return render_template("recipe.html", recipe=recipe)
 
 
 @app.route("/quiz", methods=["GET", "POST"])
@@ -102,10 +103,10 @@ def login():
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        return "Invalid email"
+        return render_template("login.html", error=1)
 
     if user.password != password:
-        return "Invalid password"
+        return render_template("login.html", error=2)
 
     login_user(user)
 
@@ -152,6 +153,7 @@ def get_recipe_by_id(id: int):
 
 @app.route("/calendar")
 def calendar():
+    render_template("loading.html")
     days = get_recipes()
     return render_template("/calendar.html", days=days)
 
@@ -202,9 +204,3 @@ def save_recipe(recipe_info: dict, date: datetime, meal_order: int):
 
 def get_user_quiz():
     return Quiz.query.filter_by(user=current_user.id).first()
-
-
-def send_email(recipient: str, body: str, subject: str):
-    message = Message(subject=subject, recipients=[recipient])
-    message.body = body
-    mail.send(message)
