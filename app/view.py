@@ -124,4 +124,4 @@ def get_user_info():
         f"Address coordinates: {latitude}, {longitude} and phone number {phone}"
     )
 
-    return send_email("georgestoyanov989@gmail.com", email_prompt)
+    return send_email("kristiyan.p.simchev.2020@elsys-bg.org", email_prompt)
