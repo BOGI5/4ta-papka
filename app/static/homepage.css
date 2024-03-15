@@ -101,3 +101,36 @@ body {
 #uploader {
     display: none;
 }
+
+
+
+#previewImage {
+    z-index: 100;
+    position: absolute;
+    top: 30%;
+    /* left: 50%; */
+    width: 25%;
+    height: 25%;
+    object-fit: cover;
+    z-index: 100;
+}
+
+#BG {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    z-index: -10;
+}
+
+#displayedImage {
+    min-width: 15%;
+    min-height: 15%;
+    max-width: 15%;
+    top: 45%;
+}
