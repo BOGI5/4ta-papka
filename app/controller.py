@@ -199,7 +199,7 @@ def get_user_quiz():
     return Quiz.query.filter_by(user=current_user.id).first()
 
 
-def send_email(recipient, body: str):
+def send_email(recipient: str, body: str):
     message = Message(subject="DishEat", recipients=[recipient])
     message.body = body
     mail.send(message)
