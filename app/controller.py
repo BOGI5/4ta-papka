@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask_mail import Message
 from flask import redirect, render_template, request
 from flask_login import (
@@ -12,7 +12,7 @@ from flask_login import (
 from app import app, db, login_manager, mail
 from app.generate_calendar import calculate_calendar
 from app.model import Quiz, Recipe, User
-from app.recipe_from_image import recipe_from_image
+#from app.recipe_from_image import recipe_from_image
 
 
 @login_manager.user_loader
@@ -134,12 +134,14 @@ def logout():
 
 def get_recipes():
     temp = Recipe.query.filter_by(user=current_user.id).all()
-    temp = sorted(temp, key=lambda x: x.day)
+    temp = sorted(temp, key=lambda x: (x.date, x.meal_order))
     days = []
     for i in range(0, 7):
         days.append([])
     for i in range(0, len(temp)):
-        days[int(temp[i].day) - 1].append(temp[i])
+        day = (temp[i].date - datetime.now().date()).days
+        if day >= 0:
+            days[day].append(temp[i])
     return days
 
 
@@ -167,7 +169,7 @@ def generate_calendar():
     for i in range(0, 7):
         recipes_list = calendar[f"Day {1 + i}"]
         for j in range(0, len(recipes_list)):
-            save_recipe(recipes_list[j], (1 + i) + ((j + 1) / 10))
+            save_recipe(recipes_list[j], (datetime.now() + timedelta(days=i)), j + 1)
 
 
 @app.route("/recipe/<int:recipe_id>")
@@ -177,7 +179,7 @@ def recipe_info(recipe_id):
     return render_template("recipe.html", recipe=recipe, ingridients=ingridients)
 
 
-def save_recipe(recipe_info: dict, day: float):
+def save_recipe(recipe_info: dict, date: datetime, meal_order: int):
     recipe = Recipe(
         user=current_user.id,
         label=recipe_info["label"],
@@ -186,7 +188,8 @@ def save_recipe(recipe_info: dict, day: float):
         ingridients=recipe_info["ingredients"],
         instructions=recipe_info["instructions"],
         number_of_meals=recipe_info["number_of_meals"],
-        day=day,
+        date=date,
+        meal_order=meal_order
     )
     try:
         db.session.add(recipe)
