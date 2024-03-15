@@ -13,7 +13,7 @@ def generate_recipes(input_info):
         "You are a cooking assistant. Make a list of 10 recipes. The recipes should be something that the person can eat for a whole meal like a whole dinner or breackfast. Format them like a json file and print ONLY then info.You should have label, totalTime(Time to make in minutes), calories, instructions(step by step in one string), ingridients and number_of_meals:\n"
         "This is the user's input. It is very imoprtant!!!:\n"
         f"{input_formatted}"
-        "The last variable is mod. If it is fitness, aim for higher protein and healthy meals. If it is Taste aim for tastier meals"
+        "The last variable is mod. If it is fitness, aim for higher protein and healthy meals. If it is Taste aim for tastier meals. Also you don't have to make 100% of the recipes with the prefered meals but 60%"
         "Use ONLY this scheme:"'''
   "type": "array",
   "items": {
