@@ -14,12 +14,10 @@ To get the project up and running on your system, you will need the following to
 
 ### Installation
 1. Clone the repository to your local machine:
-git clone https://github.com/yourusername/culinary-assistant.git
+git clone https://github.com/BOGI5/4ta-papka/edit/main
 
 2. Install the required libraries using pip:
 pip install -r requirements.txt
-
-3. Configure the connection to your MySQL database in the configuration file.
 
 ## Usage
 To start the web server for DishEat, execute the following command in the terminal:
