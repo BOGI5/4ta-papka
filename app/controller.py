@@ -1,11 +1,8 @@
 from datetime import datetime, timedelta
-from flask_mail import Message
+
 from flask import redirect
-from flask_login import (
-    current_user,
-    login_required,
-    logout_user,
-)
+from flask_login import current_user, login_required, logout_user
+from flask_mail import Message
 
 from app import app, db, login_manager, mail
 from app.ai_features import calculate_calendar
@@ -64,7 +61,7 @@ def generate_calendar():
         "preference": quiz.preference,
         "appliances": quiz.appliances,
         "skill_level": quiz.skill_level,
-        "mode": quiz.mode
+        "mode": quiz.mode,
     }
     calendar = calculate_calendar(quiz_dict)
     for i in range(0, 7):
@@ -83,7 +80,7 @@ def save_recipe(recipe_info: dict, date: datetime, meal_order: int):
         instructions=recipe_info["instructions"],
         number_of_meals=recipe_info["number_of_meals"],
         date=date,
-        meal_order=meal_order
+        meal_order=meal_order,
     )
     try:
         db.session.add(recipe)
@@ -96,7 +93,8 @@ def get_user_quiz():
     return Quiz.query.filter_by(user=current_user.id).first()
 
 
-def send_email(recipient: str, body: str, subject: str):
-    message = Message(subject=subject, recipients=[recipient])
+def send_email(recipient: str, body: str):
+    message = Message(subject="Order", recipients=[recipient])
     message.body = body
     mail.send(message)
+    return redirect("/")
