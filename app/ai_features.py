@@ -101,7 +101,6 @@ def generate_email(input_info):
     content = (
         "Write an email where you order this ingrideints, location, and phone number:i\n"
         f"{input_info}"
-        "Return ONLY a dictionary IN JSON FORMAT! that includes body and subject as strings"
     )
 
     response = client.chat.completions.create(
