@@ -10,9 +10,10 @@ def generate_recipes(input_info):
     input_formatted = '\n'.join([f"{key}: {value}" for key, value in input_info.items()])
     print("start")
     content = (
-        "You are a cooking assistant. Make a list of 10 recipes. Format them like a json file and print ONLY then info.You should have label, totalTime(Time to make in minutes), calories, instructions(step by step in one string), ingridients and number_of_meals:\n"
+        "You are a cooking assistant. Make a list of 10 recipes. The recipes should be something that the person can eat for a whole meal like a whole dinner or breackfast. Format them like a json file and print ONLY then info.You should have label, totalTime(Time to make in minutes), calories, instructions(step by step in one string), ingridients and number_of_meals:\n"
         "This is the user's input. It is very imoprtant!!!:\n"
         f"{input_formatted}"
+        "The last variable is mod. If it is fitness, aim for higher protein and healthy meals. If it is Taste aim for tastier meals"
         "Use ONLY this scheme:"'''
   "type": "array",
   "items": {
@@ -42,7 +43,6 @@ def generate_recipes(input_info):
     "additionalProperties": false
   }
 ''')
-
     
     response = client.chat.completions.create(
         model="gpt-4",
