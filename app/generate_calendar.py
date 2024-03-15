@@ -80,7 +80,7 @@ def calculate_calendar(input):
         meal_day = f"Day {day}"
         calendar[meal_day] = []
         
-        if meals_per_week >= (7-day) * int(meals_per_day):
+        while meals_per_week >= (7-day) * int(meals_per_day):
             calendar[meal_day].append(sorted_recipes_desc[recipes_index])
             meals_per_week -= int(sorted_recipes_desc[recipes_index]["number_of_meals"])
             recipes_index += 1
