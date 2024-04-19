@@ -6,18 +6,21 @@ from flask_mail import Message
 
 from app import app, db, login_manager, mail
 from app.ai_features import calculate_calendar
-from app.model import Quiz, Recipe, User
+from app.model import Quiz, Recipe, User, UnautorizedUser
 
 
 @login_manager.user_loader
 def user_loader(id):
-    return User.query.get(id)
+    if UnautorizedUser.query.get(id):
+        return UnautorizedUser.query.get(id)
+    else:
+        return User.query.get(id)
 
 
 @app.route("/delete_user")
 @login_required
 def delete_user():
-    if isinstance(current_user, AnonymousUserMixin):
+    if isinstance(current_user, AnonymousUserMixin) or isinstance(current_user, UnautorizedUser):
         return redirect("/")
 
     db.session.delete(Quiz.query.filter_by(user=current_user.id).first())
@@ -34,7 +37,7 @@ def delete_user():
 @app.route("/logout")
 @login_required
 def logout():
-    if isinstance(current_user, AnonymousUserMixin):
+    if isinstance(current_user, AnonymousUserMixin) or isinstance(current_user, UnautorizedUser):
         return redirect("/")
 
     logout_user()
@@ -99,8 +102,8 @@ def get_user_quiz():
     return Quiz.query.filter_by(user=current_user.id).first()
 
 
-def send_email(recipient: str, body: str):
-    message = Message(subject="Order", recipients=[recipient])
+def send_email(subject: str, recipient: str, body: str):
+    message = Message(subject=subject, recipients=[recipient])
     message.body = body
     mail.send(message)
     return redirect("/")

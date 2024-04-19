@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Log in</title>
+    <title>Activation</title>
     <link rel="stylesheet" href="../static/login.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -20,23 +20,9 @@
 
     <form id="forms" method="post">
         <img id="logo" src="../static/logo.webp" alt="logo">
+
         {% if error == 1 %}
-        <input type="email" name="email" id="email" placeholder="Invalid Email" required>
-        <style>
-            #email {
-                border: 2px solid red;
-            }
-
-            #email::placeholder {
-                color: red;
-            }
-        </style>
-        {% else %}
-        <input type="email" name="email" id="email" placeholder="Email" required>
-        {% endif %}
-
-        {% if error == 2 %}
-        <input type="password" name="password" id="password" placeholder="Invalid Password">
+        <input type="password" name="password" id="password" placeholder="Invalid Pin">
         <style>
             #password {
                 border: 2px solid red;
@@ -47,11 +33,11 @@
             }
         </style>
         {% else %}
-        <input type="password" name="password" id="password" placeholder="Password" required> 
+        <input type="password" name="password" id="password" placeholder="Pin" required> 
         {% endif %}
         
 
-        <input type="submit" value="Log in" id="submitter">
+        <input type="submit" value="Activate" id="submitter">
     </form>
 </body>
 

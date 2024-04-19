@@ -14,6 +14,10 @@ class User(UserMixin, db.Model):
         return f"Email: {self.email}"
     
 
+class UnautorizedUser(User):
+    pin = db.Column(db.Integer, nullable=False)
+    
+
 class Recipe(db.Model):
     TEXT_MAX_SIZE = 300
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

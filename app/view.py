@@ -1,10 +1,10 @@
 from flask import redirect, render_template, request
 from flask_login import AnonymousUserMixin, current_user, login_required, login_user
-
+from random import randint
 from app import app, db
 from app.ai_features import *
 from app.controller import *
-from app.model import Quiz, Recipe, User
+from app.model import Quiz, Recipe, User, UnautorizedUser
 
 
 @app.route("/")
@@ -43,7 +43,7 @@ def dish():
 
 @app.route("/quiz", methods=["GET", "POST"])
 def quiz():
-    if isinstance(current_user, AnonymousUserMixin):
+    if isinstance(current_user, AnonymousUserMixin) or isinstance(current_user, UnautorizedUser):
         return redirect("/")
 
     if request.method == "GET":
@@ -99,13 +99,36 @@ def signup():
     if exists:
         return render_template("signup.html", error=1)
 
-    user = User(email=email, name=name, password=password)
+    user = UnautorizedUser(email=email, name=name, password=password, pin=randint(100000, 999999))
     db.session.add(user)
     db.session.commit()
-
+    send_email("Profile activation", user.email, f"Hello {user.name},\nyour activation pin is: {user.pin}")
     login_user(user)
 
-    return redirect("/quiz")
+    return redirect("/activate_profile")
+
+
+@app.route("/activate_profile", methods=['GET', 'POST'])
+def activate_profile():
+    if not isinstance(current_user, UnautorizedUser) or isinstance(current_user, AnonymousUserMixin):
+        return redirect("/quiz")
+    if request.method == "GET":
+        return render_template("activate_user.html", error=0)
+    
+    else:
+        pin = request.form['password']
+        if str(current_user.pin) == pin:
+            # error in recreating UnautorizedUser to User
+            unautorized_user = UnautorizedUser.query.get(current_user.id)
+            logout_user()
+            db.session.delete(unautorized_user)
+            user = User(email=unautorized_user.email, name=unautorized_user.name, password=unautorized_user.password)
+            db.session.add(user)
+            db.session.commit()
+            login_user(user)
+            return redirect("/quiz")
+        else:
+            return render_template("activate_user.html", error=1)
 
 
 @app.route("/login", methods=["GET", "POST"])
@@ -116,6 +139,8 @@ def login():
     email = request.form["email"]
     password = request.form["password"]
     user = User.query.filter_by(email=email).first()
+    if not user:
+        UnautorizedUser.query.filter_by(email=email).first()
 
     if not user:
         return render_template("login.html", error=1)
@@ -124,13 +149,15 @@ def login():
         return render_template("login.html", error=2)
 
     login_user(user)
-
-    return redirect("/calendar")
+    if isinstance(current_user, UnautorizedUser):
+        return redirect("/activate_user")
+    else:
+        return redirect("/calendar")
 
 
 @app.route("/calendar")
 def calendar():
-    if isinstance(current_user, AnonymousUserMixin):
+    if isinstance(current_user, AnonymousUserMixin) or isinstance(current_user, UnautorizedUser):
         return redirect("/")
 
     days = get_recipes()
@@ -139,7 +166,7 @@ def calendar():
 
 @app.route("/recipe/<int:recipe_id>")
 def recipe_info(recipe_id):
-    if isinstance(current_user, AnonymousUserMixin):
+    if isinstance(current_user, AnonymousUserMixin) or isinstance(current_user, UnautorizedUser):
         return redirect("/")
 
     recipe = get_recipe_by_id(recipe_id)
@@ -149,7 +176,7 @@ def recipe_info(recipe_id):
 
 @app.route("/order", methods=["GET", "POST"])
 def get_user_info():
-    if isinstance(current_user, AnonymousUserMixin):
+    if isinstance(current_user, AnonymousUserMixin) or isinstance(current_user, UnautorizedUser):
         return redirect("/")
 
     if request.method == "GET":
@@ -166,4 +193,4 @@ def get_user_info():
         f"Address coordinates: {latitude}, {longitude} and phone number {phone}, email: {current_user.email}, sender name: {current_user.name}, ingredients: {ingredients}"
     )
 
-    return send_email("kristiyan.p.simchev.2020@elsys-bg.org", email_prompt)
+    return send_email("Order", "kristiyan.p.simchev.2020@elsys-bg.org", email_prompt)
