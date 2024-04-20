@@ -147,12 +147,13 @@ def generate_recipes(input_info):
         #Notes
         In the example you see just how your whole answer should be structured. when making the list keep in mind the user input.            
 ''')
-
+    print("end")
     response = client.chat.completions.create(
-        model="gpt-3.5 Turbo", messages=[{"role": "user", "content": content}]
+        model="gpt-3.5-turbo", messages=[{"role": "user", "content": content}]
     )
-
+    print(response)
     response_content = response.choices[0].message.content
+    print(response_content)
     return response_content
 
 
