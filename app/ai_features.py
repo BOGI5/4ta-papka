@@ -1,4 +1,5 @@
 import json
+from functools import cache
 
 import requests
 from openai import OpenAI
@@ -113,6 +114,7 @@ def generate_email(input_info):
     return response_content
 
 
+@cache
 def generate_recipe_from_meal_image(imagebase64_image_path):
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
 
@@ -175,6 +177,7 @@ def generate_recipe_from_meal_image(imagebase64_image_path):
     return recipe
 
 
+@cache
 def generate_recipe_from_groceries_image(imagebase64_image_path):
     headers = {"Content-Type": "application/json", "Authorization": f"Bearer {key}"}
 
