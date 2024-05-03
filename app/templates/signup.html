@@ -14,12 +14,44 @@
 
     <img id="plate" src="../static/top-view-empty-black-plate-along-with-white-flowers-dark-floor.jpg" alt="blackplate">
 
+    <a href="/" id="ahome">
+        <button class="ih" id="home">Home</button>
+    </a>
 
     <form id="forms" method="post">
         <img id = "logo" src="../static/logo.webp" alt="logo">
-        <input type="email" id="email" name="email" placeholder="Email" required>
+        {% if error == 1 %}
+            <input type="email" name="email" id="email" placeholder="Invalid Email" required>
+            <style>
+                #email {
+                    border: 2px solid red;
+                }
+
+                #email::placeholder {
+                    color: red;
+                }
+            </style>
+        {% else %}
+            <input type="email" id="email" name="email" placeholder="Email" required>
+        {% endif %}
+
         <input type="text" id="name" name="name" placeholder="Username" required>
-        <input type="password" id="password" name="password" placeholder="Password" required>
+        
+        {% if error == 2 %}
+            <input type="password" name="password" id="password" placeholder="Invalid Password">
+            <style>
+                #password {
+                    border: 2px solid red;
+                }
+
+                #password::placeholder {
+                    color: red;
+                }
+            </style>
+        {% else %}
+            <input type="password" id="password" name="password" placeholder="Password" required>
+        {% endif %}
+
         <input type="submit" value="Sign up" id="submitter">
 
 </body>

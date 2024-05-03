@@ -72,8 +72,8 @@ header > h1 {
     color: #DFD9D3;
 }
 
-#create {
-    margin-right: 65em;
+#ahome {
+    margin-right: 40%;
 }
 
 h2 {
@@ -83,7 +83,8 @@ h2 {
     font-weight: 400;
     font-style: normal;
     border: none;
-    margin-top: 1.5em;
+    margin-top: 1em;
+    margin-bottom: 1.5em;
 }
 
 #container {

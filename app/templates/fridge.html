@@ -10,69 +10,89 @@
     <link href="https://fonts.googleapis.com/css2?family=Madimi+One&display=swap" rel="stylesheet">
 </head>
 
+
+<img id="GIF" style="display: none;" src="../static/giphy.gif">
+<img id="bg" style="display: none;" src="../static/loadingBG.jpg" alt="image">
+
 <body>
 
     <img id="BG" src="../static/blackplate.jpg" alt="blackplate">
 
-    <div id="header">
-        <img id="imagePreview" alt="Uploaded Image" style="z-index: 100; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; display: none;">
-    </div>
 
-    <div id="forms" class="fridgeForm">
+    <div id="imagePreview" alt="Uploaded Image"
+        style="z-index: -1; position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;"></div>
+
+
+    <form id="forms" class="fridgeForm" method="post">
 
         <!--a href="/signup" id="signup">Sign up</a-->
-        <input type="file" accept="image/*" id="imageInput">
+        <input type="file" accept="image/*" id="imageInput" style="z-index: 120;">
         <label for="imageInput" id="signup" class="fridge">Upload</label>
 
         <!--a href="/login" id="login">Log in</a-->
         <input type="hidden" name="imageData" id="imageData">
-        <input type="submit" value="Upload" id="uploader">
-        <label for="imageData" id="login" class="fridge">Submit</label>
-    </div>
+        <input type="submit" value="Upload" id="uploader" style="z-index: 150;">
+
+        <label for="uploader" id="login" class="fridge" onclick="loadingScreen()">Submit</label>
+        <canvas id="canvas" style="display: none;"></canvas>
+    </form>
+
+
+
+
+
+
+
+
+
+
+    <script>
+        document.getElementById('imageInput').addEventListener('change', function (event) {
+            const file = event.target.files[0];
+            const reader = new FileReader();
+
+            reader.onload = function (event) {
+                const imageUrl = event.target.result;
+                const imagePreview = document.getElementById('imagePreview');
+                imagePreview.innerHTML = `<img src="${imageUrl}" alt="Uploaded Image" id="displayedImage">`;
+            }
+
+            reader.readAsDataURL(file);
+
+            reader.onloadend = function () {
+                const image = new Image();
+                image.src = reader.result;
+
+                image.onload = function () {
+                    const canvas = document.getElementById('canvas');
+                    const context = canvas.getContext('2d');
+
+                    canvas.width = image.width;
+                    canvas.height = image.height;
+
+                    context.drawImage(image, 0, 0, image.width, image.height);
+                    const dataUrl = canvas.toDataURL('image/jpeg');
+                    console.log(dataUrl);
+                    document.getElementById('imageData').value = dataUrl;
+
+                }
+            }
+
+        });
+
+        
+
+        function loadingScreen() {
+            console.log("FGHC FGH")
+        document.getElementById("forms").style.display = "none";
+        document.getElementById("imagePreview").style.display = "none";
+        document.getElementById("BG").src = "../static/cropped.gif";
+        }
+
+    </script>
 </body>
 
 
-
-
-
-
-
-
-
-<script>
-    document.getElementById('imageInput').addEventListener('change', function (event) {
-        const file = event.target.files[0];
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-            const imageUrl = event.target.result;
-            const imagePreview = document.getElementById('imagePreview');
-            imagePreview.innerHTML = `<img src="${imageUrl}" alt="Uploaded Image" id="previewedImage">`;
-        }
-
-        reader.readAsDataURL(file);
-
-        reader.onloadend = function () {
-            const image = new Image();
-            image.src = reader.result;
-
-            image.onload = function () {
-                const canvas = document.getElementById('canvas');
-                const context = canvas.getContext('2d');
-
-                canvas.width = image.width;
-                canvas.height = image.height;
-
-                context.drawImage(image, 0, 0, image.width, image.height);
-                const dataUrl = canvas.toDataURL('image/jpeg');
-                console.log(dataUrl);
-                document.getElementById('imageData').value = dataUrl;
-
-            }
-        }
-
-    });
-</script>
 
 
 </html>

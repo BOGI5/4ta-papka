@@ -45,6 +45,7 @@ h1 {
     text-align: left;
     font-size: 2.5vw;
     padding-top: 1%;
+    margin-bottom: 0.5em;
     
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
@@ -56,10 +57,37 @@ p {
     text-align: left;
     font-size: 1.3vw;
     padding-top: 1%;
+    margin-bottom: 0.8em;
+    margin-top: 0.8em;
 
     max-width: 100%;
     
     font-family: "Madimi One", sans-serif;
     font-weight: 400;
     font-style: normal;
+}
+
+button {
+    position: absolute;
+    top: 90%;
+    left: 8%;
+    background-color: #DFD9D3;
+    color: #73706D;
+    transform: translate(-50%, -50%);
+    border: none;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+    font-size: 1.5vw;
+    border-radius: 1em;
+
+    font-family: "Madimi One", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #73706D;
+    color: #DFD9D3;
 }

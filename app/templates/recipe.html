@@ -21,12 +21,13 @@
             <p>All the needed ingredients for this meal are:</p>
             <p>
                 {%for ingridient in ingridients%}
-                    {{ingridient}}
+                    {{ingridient}},
                 {%endfor%}
             </p>
             <p>Follow the instructions to prepare your meal:</p>
             <p>{{recipe.instructions}}</p>
         </div>
     </div>
+    <a href="/calendar"><button>Go back</button></a>
     
 </body>

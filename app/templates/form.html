@@ -14,16 +14,18 @@
 
     <img id="bg" src="../static/formbg.jpg" alt="image">
 
-    <form id="forms" method="post">
+    <form id="forms" method="post" onsubmit="handleSubmit(event)">
         <h1 class="fl">Tell us about yourself, {{name}}</h1>
 
         <input type="text" name="time" placeholder="How much time a day do you have for meal preparation?" required>
-        <input type="text" name="allergic" placeholder="Are there any foods that you dislike or are allergic to?" required>
+        <input type="text" name="allergic" placeholder="Are there any foods that you dislike or are allergic to?"
+            required>
         <input type="text" name="meals_count" placeholder="How many meals per day?" required>
         <input type="text" name="preference" placeholder="What meals do you prefer?" required>
-        <input type="text" name="appliances" placeholder="Do you have access to any specific cooking appliances?" required>
+        <input type="text" name="appliances" placeholder="Do you have access to any specific cooking appliances?"
+            required>
         <input type="text" name="skill_level" placeholder="What's your cooking skill level?" required>
-    
+
         <h2>What's your goal?</h2>
         <div id="rad">
             <input type="radio" id="taste" name="goal" value="Taste" required>
@@ -35,6 +37,20 @@
         <input class="fl" type="submit" id="sub" value="Submit" id="submitter">
 
     </form>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault(); // Prevents the form from submitting normally
+
+            // Perform actions when the form is submitted
+            document.getElementById("forms").style.display = "none";
+            document.getElementById("bg").src = "../static/cropped.gif";
+
+            // Manually submit the form
+            document.getElementById("forms").submit();
+        }
+
+    </script>
 
 </body>
 

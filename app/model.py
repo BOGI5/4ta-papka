@@ -24,7 +24,8 @@ class Recipe(db.Model):
     ingridients = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     instructions = db.Column(db.String(5000), nullable=False)
     number_of_meals = db.Column(db.Integer, nullable=False)
-    day = db.Column(db.Float, nullable=False)
+    meal_order = db.Column(db.Integer, nullable=False)
+    date = db.Column(db.Date, nullable=False)
 
     __table_args__ = (
         db.UniqueConstraint('label', 'user'),
@@ -41,3 +42,4 @@ class Quiz(db.Model):
     preference = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     appliances = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
     skill_level = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
+    mode = db.Column(db.String(TEXT_MAX_SIZE), nullable=False)
